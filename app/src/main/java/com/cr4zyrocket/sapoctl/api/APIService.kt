@@ -10,13 +10,14 @@ import retrofit2.http.Query
 interface APIService {
 
     @GET("admin/products.json?limit=20")
-    suspend fun getResponseProductList(@Query("page") currentPage: Long): Response<ResponseProductList>
+    suspend fun getResponseProductList(@Query("page") currentPage: Long,@Query("query")keySearch: String): Response<ResponseProductList>
 
     @GET("admin/variants/search.json?limit=20")
-    suspend fun getResponseVariantList(@Query("page") currentPage: Long): Response<ResponseVariantList>
+    suspend fun getResponseVariantList(@Query("page") currentPage: Long,@Query("query")keySearch: String): Response<ResponseVariantList>
 
     @GET("admin/products/{productId}.json")
     suspend fun getProduct(@Path("productId") productId: Long): Response<ResponseProduct>
+
 
     @GET("admin/products/{productId}/variants/{variantId}.json")
     suspend fun getVariant(

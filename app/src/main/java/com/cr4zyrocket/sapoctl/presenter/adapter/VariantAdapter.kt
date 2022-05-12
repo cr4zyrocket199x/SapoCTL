@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.adapter
+package com.cr4zyrocket.sapoctl.presenter.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.variant_detail.VariantDetailActivity
+import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import com.cr4zyrocket.sapoctl.model.Variant
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat

@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.adapter
+package com.cr4zyrocket.sapoctl.presenter.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

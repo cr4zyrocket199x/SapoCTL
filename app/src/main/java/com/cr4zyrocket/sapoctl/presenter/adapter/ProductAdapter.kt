@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.adapter
+package com.cr4zyrocket.sapoctl.presenter.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -11,21 +11,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.product_detail.ProductDetailActivity
+import com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailActivity
 import com.cr4zyrocket.sapoctl.model.Product
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 
 class ProductAdapter(
     private val context: Context,
-    private val productData: MutableList<Product>
+    private val product: MutableList<Product>
 ) :
-    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(), Filterable {
+    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(){
 
     private var productList = mutableListOf<Product>()
 
     init {
-        productList = productData
+        productList = product
     }
 
     inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -40,47 +40,6 @@ class ProductAdapter(
     override fun getItemCount(): Int {
         return productList.size
     }
-
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(p0: CharSequence?): FilterResults {
-                val inputText = p0.toString().lowercase()
-                if (inputText.isEmpty()) {
-                    productList = productData
-                } else {
-                    val productListFiltered = mutableListOf<Product>()
-                    var x = false
-                    for (product in productData) {
-                        for (variant in product.variants) {
-
-                            if (variant.variantName.lowercase().contains(inputText)
-                                || variant.variantSKU.lowercase().contains(inputText)
-                                || variant.variantBarCode.lowercase().contains(inputText)
-                            ) {
-                                x = true
-                                break
-                            }
-                        }
-                        if (x) {
-                            productListFiltered.add(product)
-                            x = !x
-                        }
-                    }
-                    productList = productListFiltered
-                }
-                val filterResult = FilterResults()
-                filterResult.values = productList
-                return filterResult
-            }
-
-            override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-                productList = p1?.values as MutableList<Product>
-                notifyDataSetChanged()
-            }
-
-        }
-    }
-
 
     override fun onCreateViewHolder(
         parent: ViewGroup,

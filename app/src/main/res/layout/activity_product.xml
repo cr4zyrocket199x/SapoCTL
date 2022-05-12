@@ -3,7 +3,7 @@
     <data>
         <variable
             name="proP"
-            type="com.cr4zyrocket.sapoctl.product.ProductPresenter" />
+            type="com.cr4zyrocket.sapoctl.presenter.product.ProductPresenter" />
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
-        tools:context=".product.ProductActivity">
+        tools:context=".presenter.product.ProductActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tbProductToolbar"

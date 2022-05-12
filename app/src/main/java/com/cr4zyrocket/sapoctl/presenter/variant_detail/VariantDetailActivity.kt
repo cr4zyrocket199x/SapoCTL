@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.variant_detail
+package com.cr4zyrocket.sapoctl.presenter.variant_detail
 
 import android.os.Bundle
 import android.os.Handler
@@ -13,9 +13,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.adapter.PackSizeAdapter
-import com.cr4zyrocket.sapoctl.adapter.ProductImageAdapter
-import com.cr4zyrocket.sapoctl.adapter.ProductPriceAdapter
+import com.cr4zyrocket.sapoctl.presenter.adapter.PackSizeAdapter
+import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
+import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
 import com.cr4zyrocket.sapoctl.databinding.ActivityVariantDetailBinding
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant

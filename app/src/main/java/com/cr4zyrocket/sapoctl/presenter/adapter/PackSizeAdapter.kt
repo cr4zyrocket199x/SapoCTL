@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.adapter
+package com.cr4zyrocket.sapoctl.presenter.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -9,24 +9,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.variant_detail.VariantDetailActivity
+import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import com.cr4zyrocket.sapoctl.model.Variant
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 import java.util.*
 
-class VariantForOneAdapter(
-    private val context: Context,
-    variants: MutableList<Variant>
-) :
-    RecyclerView.Adapter<VariantForOneAdapter.VariantViewHolder>() {
-    private var variantList = mutableListOf<Variant>()
+class PackSizeAdapter(private val context: Context, private val packSizes: MutableList<Variant>) :
+    RecyclerView.Adapter<PackSizeAdapter.PackSizeViewHolder>() {
+    private var packSizeList = mutableListOf<Variant>()
 
     init {
-        variantList = variants
+        packSizeList = packSizes
     }
 
-    inner class VariantViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PackSizeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ivArrowDownRight: ImageView = itemView.findViewById(R.id.ivArrowDownRight)
         val ivVariantImage: ImageView = itemView.findViewById(R.id.ivVariantImage)
         val tvVariantName: TextView = itemView.findViewById(R.id.tvVariantName)
@@ -36,51 +33,48 @@ class VariantForOneAdapter(
         val tvVariantAvailable: TextView = itemView.findViewById(R.id.tvVariantAvailable)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VariantViewHolder {
-        return VariantViewHolder(
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): PackSizeAdapter.PackSizeViewHolder {
+        return PackSizeViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_variant, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: VariantViewHolder, position: Int) {
-        val variant = variantList[position]
-        if (variant.variantImages.isEmpty()) {
+    override fun onBindViewHolder(holder: PackSizeAdapter.PackSizeViewHolder, position: Int) {
+        val packSize = packSizeList[position]
+        if (packSize.variantImages.isEmpty()) {
             holder.ivVariantImage.setImageResource(R.drawable.ic_no_image)
         } else {
-            Picasso.get().load(variant.variantImages[0].imageFullPath)
+            Picasso.get().load(packSize.variantImages[0].imageFullPath)
                 .fit().centerCrop()
                 .into(holder.ivVariantImage)
         }
-
-        if (variant.variantPackSize) {
-            holder.tvVariantName.text = context.getString(R.string.variantForOneAdapter4)
-            holder.ivArrowDownRight.visibility = View.VISIBLE
-        } else {
-            holder.tvVariantName.text = variant.variantName
-            holder.ivArrowDownRight.visibility = View.GONE
-        }
+        holder.ivArrowDownRight.setImageResource(R.drawable.ic_arrow_down_right)
+        holder.tvVariantName.text = context.getString(R.string.variantForOneAdapter4)
         holder.tvVariantSKU.text =
-            StringBuffer(context.getString(R.string.variantForOneAdapter1) + variant.variantSKU)
+            StringBuffer(context.getString(R.string.variantForOneAdapter1) + packSize.variantSKU)
         holder.tvVariantRetailPrice.text =
-            NumberFormat.getInstance(Locale.US).format(variant.variantRetailPrice).toString()
+            NumberFormat.getInstance(Locale.US).format(packSize.variantRetailPrice).toString()
         holder.tvVariantAvailable.text = StringBuffer(
             context.getString(R.string.variantForOneAdapter2) + NumberFormat.getInstance()
-                .format(variant.inventories[0].inventoryAvailable).toString()
+                .format(packSize.inventories[0].inventoryAvailable).toString()
         )
         holder.tvVariantOnHand.text = StringBuffer(
             context.getString(R.string.variantForOneAdapter3) + NumberFormat.getInstance()
-                .format(variant.inventories[0].inventoryOnHand).toString()
+                .format(packSize.inventories[0].inventoryOnHand).toString()
         )
         holder.itemView.setOnClickListener {
             val intent = Intent(context, VariantDetailActivity::class.java)
-            intent.putExtra("productId", variant.productId)
-            intent.putExtra("variantId", variant.variantId)
+            intent.putExtra("productId", packSize.productId)
+            intent.putExtra("variantId", packSize.variantId)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int {
-        return variantList.size
+        return packSizeList.size
     }
 }

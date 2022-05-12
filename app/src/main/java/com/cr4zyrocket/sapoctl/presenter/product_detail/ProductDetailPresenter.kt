@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.product_detail
+package com.cr4zyrocket.sapoctl.presenter.product_detail
 
 import androidx.lifecycle.MutableLiveData
 import com.cr4zyrocket.sapoctl.api.API

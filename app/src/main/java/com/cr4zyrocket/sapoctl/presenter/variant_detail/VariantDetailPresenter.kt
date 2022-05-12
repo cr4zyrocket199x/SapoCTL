@@ -1,8 +1,6 @@
-package com.cr4zyrocket.sapoctl.variant_detail
+package com.cr4zyrocket.sapoctl.presenter.variant_detail
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.cr4zyrocket.sapoctl.variant_detail.VariantDetailInterface
 import com.cr4zyrocket.sapoctl.api.API
 import com.cr4zyrocket.sapoctl.common.Common
 import com.cr4zyrocket.sapoctl.model.Product

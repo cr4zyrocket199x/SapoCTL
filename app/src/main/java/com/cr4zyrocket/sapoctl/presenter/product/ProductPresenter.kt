@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.product
+package com.cr4zyrocket.sapoctl.presenter.product
 
 import androidx.lifecycle.MutableLiveData
 import com.cr4zyrocket.sapoctl.api.API
@@ -21,16 +21,19 @@ class ProductPresenter(
 
     override suspend fun initData(isProductResult: Boolean, currentPage: Long) {
         if (isProductResult) {
-            productInterfaceViewModel.showProductList(getProductList(currentPage))
+            productInterfaceViewModel.showProductList(getProductList(currentPage,""))
         } else {
-            productInterfaceViewModel.showVariantList(getVariantList(currentPage))
+            productInterfaceViewModel.showVariantList(getVariantList(currentPage,""))
         }
         productInterfaceViewModel.setRefresh(false)
     }
 
-    override suspend fun getProductList(currentPage: Long): MutableList<Product> {
+    override suspend fun getProductList(
+        currentPage: Long,
+        keySearch: String
+    ): MutableList<Product> {
         val productList = mutableListOf<Product>()
-        val responseData = API.apiService.getResponseProductList(currentPage)
+        val responseData = API.apiService.getResponseProductList(currentPage, keySearch)
         if (responseData.isSuccessful) {
             responseData.body()?.productList?.forEach {
                 productList.add(common.mapProductToProductData(it))
@@ -41,9 +44,12 @@ class ProductPresenter(
     }
 
 
-    override suspend fun getVariantList(currentPage: Long): MutableList<Variant> {
+    override suspend fun getVariantList(
+        currentPage: Long,
+        keySearch: String
+    ): MutableList<Variant> {
         val variantList = mutableListOf<Variant>()
-        val responseData = API.apiService.getResponseVariantList(currentPage)
+        val responseData = API.apiService.getResponseVariantList(currentPage, keySearch)
         if (responseData.isSuccessful) {
             responseData.body()!!.variantList!!.forEach {
                 variantList.add(common.mapVariantToVariantData(it))

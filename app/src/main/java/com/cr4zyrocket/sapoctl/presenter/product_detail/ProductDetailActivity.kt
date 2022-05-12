@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.product_detail
+package com.cr4zyrocket.sapoctl.presenter.product_detail
 
 import android.os.Bundle
 import android.os.Handler
@@ -11,13 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.adapter.ProductImageAdapter
-import com.cr4zyrocket.sapoctl.adapter.ProductPriceAdapter
-import com.cr4zyrocket.sapoctl.adapter.VariantForOneAdapter
 import com.cr4zyrocket.sapoctl.databinding.ActivityProductDetailBinding
+import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
+import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
+import com.cr4zyrocket.sapoctl.presenter.adapter.VariantForOneAdapter
 import com.cr4zyrocket.sapoctl.model.Product
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
 
@@ -187,6 +186,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
                 }
             }
             binding.proDP = productDetailPresenter
+            binding.notifyChange()
             binding.ncvProductDetail.visibility = View.VISIBLE
         }, 500)
     }

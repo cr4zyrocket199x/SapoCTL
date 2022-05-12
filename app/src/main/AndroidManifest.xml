@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SapoCTL">
         <activity
-            android:name=".variant_detail.VariantDetailActivity"
+            android:name="com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".product_detail.ProductDetailActivity"
+            android:name="com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".product.ProductActivity"
+            android:name="com.cr4zyrocket.sapoctl.presenter.product.ProductActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,7 +3,7 @@
     <data>
         <variable
             name="varDP"
-            type="com.cr4zyrocket.sapoctl.variant_detail.VariantDetailPresenter" />
+            type="com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailPresenter" />
     </data>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".variant_detail.VariantDetailActivity">
+        tools:context=".presenter.variant_detail.VariantDetailActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tbVariantDetailToolbar"
