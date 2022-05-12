@@ -172,9 +172,9 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
             }
             R.id.menuAppBarProductChangeResult -> {
                 if (isProductResult){
-                    item.icon=getDrawable(R.drawable.ic_product)
+                    item.setIcon(R.drawable.ic_product)
                 }else{
-                    item.icon=getDrawable(R.drawable.ic_warehouse)
+                    item.setIcon(R.drawable.ic_warehouse)
                 }
                 isProductResult = !isProductResult
                 currentPage = 1

@@ -19,6 +19,7 @@ import com.cr4zyrocket.sapoctl.model.Product
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 
 class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewModel {
     companion object {
@@ -142,9 +143,9 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
             if (product.variants.size == 1) {
                 productDetailPresenter.variant.value = product.variants[0]
                 productDetailPresenter.txtInventoryOnHand.value =
-                    getString(R.string.variantDetailActivity1) + product.variants[0].inventories[0].inventoryOnHand
+                    getString(R.string.variantDetailActivity1) + NumberFormat.getInstance().format(product.variants[0].inventories[0].inventoryOnHand)
                 productDetailPresenter.txtInventoryAvailable.value =
-                    getString(R.string.variantDetailActivity2) + product.variants[0].inventories[0].inventoryAvailable
+                    getString(R.string.variantDetailActivity2) + NumberFormat.getInstance().format(product.variants[0].inventories[0].inventoryAvailable)
                 productDetailPresenter.txtInventoryPosition.value =
                     product.variants[0].inventories[0].inventoryPosition
                 productDetailPresenter.txtVariantSellable.value =

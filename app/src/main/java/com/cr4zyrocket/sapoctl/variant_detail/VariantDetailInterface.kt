@@ -1,6 +1,5 @@
 package com.cr4zyrocket.sapoctl.variant_detail
 
-import com.cr4zyrocket.sapoctl.api.model.ProductData
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
 

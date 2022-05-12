@@ -1,10 +1,7 @@
 package com.cr4zyrocket.sapoctl.product
 
-import com.cr4zyrocket.sapoctl.api.model.ProductData
-import com.cr4zyrocket.sapoctl.api.model.ResponseProductList
-import com.cr4zyrocket.sapoctl.model.Product
-import com.cr4zyrocket.sapoctl.api.model.ResponseVariantList
 import com.cr4zyrocket.sapoctl.model.Meta
+import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
 
 

@@ -12,7 +12,7 @@ class Common {
             productID = productData.productID ?: 0
             productName = productData.productName ?: "_ _ _"
             productName = productData.productName ?: "_ _ _"
-            productStatus=productData.productStatus ?: "_ _ _"
+            productStatus = productData.productStatus ?: "_ _ _"
             productBrandName = productData.productBrandName ?: "_ _ _"
             productCategoryName = productData.productCategoryName ?: "_ _ _"
             productDescription = productData.productDescription ?: "_ _ _"
@@ -41,6 +41,7 @@ class Common {
 
     fun mapVariantToVariantData(variantData: VariantData): Variant {
         return Variant().apply {
+            val variantCompositeItemList= mutableListOf<CompositeItem>()
             variantId = variantData.variantId ?: 0
             variantName = variantData.variantName ?: "_ _ _"
             variantSKU = variantData.variantSKU ?: "_ _ _"
@@ -50,7 +51,7 @@ class Common {
             variantSellable = variantData.variantSellable ?: false
             variantTaxable = variantData.variantTaxable ?: false
             variantWeightUnit = variantData.variantWeightUnit ?: "_ _ _"
-            productType=variantData.productType ?: "_ _ _"
+            productType = variantData.productType ?: "_ _ _"
             productOption1 = variantData.productOption1 ?: "_ _ _"
             productOption2 = variantData.productOption2 ?: "_ _ _"
             productOption3 = variantData.productOption3 ?: "_ _ _"
@@ -62,7 +63,10 @@ class Common {
             variantPackSize = variantData.variantPackSize ?: false
             variantImages = mapImageListToImageDataList(variantData.variantImages)
             variantPrices = mapPriceListToPriceDataList(variantData.variantPrices)
-            variantCompositeItems = variantData.variantCompositeItems ?: mutableListOf()
+            variantData.variantCompositeItems?.forEach {
+                variantCompositeItemList.add(mapCompositeItemToCompositeItemData(it))
+            } ?: mutableListOf<Variant>()
+            variantCompositeItems = variantCompositeItemList
         }
     }
 
@@ -77,6 +81,7 @@ class Common {
         }
         return inventoryList
     }
+
     private fun mapImageListToImageDataList(imageDataList: MutableList<ImageData>?): MutableList<Image> {
         val imageList = mutableListOf<Image>()
         imageDataList?.forEach {
@@ -87,6 +92,7 @@ class Common {
         }
         return imageList
     }
+
     fun mapMetaToMetaData(metaData: MetaData): Meta {
         return Meta().apply {
             metaTotal = metaData.metaDataTotal ?: 0
@@ -94,6 +100,7 @@ class Common {
             metaPage = metaData.metaDataPage ?: 0
         }
     }
+
     private fun mapPriceListToPriceDataList(priceDataList: MutableList<PriceData>?): MutableList<Price> {
         val priceList = mutableListOf<Price>()
         priceDataList?.forEach {
@@ -103,5 +110,12 @@ class Common {
             })
         }
         return priceList
+    }
+
+    fun mapCompositeItemToCompositeItemData(compositeItemData: CompositeItemData): CompositeItem {
+        return CompositeItem().apply {
+            compositeItemSubName = compositeItemData.compositeItemSubName ?: "_ _ _"
+            compositeItemSubSKU = compositeItemData.compositeItemSubSKU ?: "_ _ _"
+        }
     }
 }

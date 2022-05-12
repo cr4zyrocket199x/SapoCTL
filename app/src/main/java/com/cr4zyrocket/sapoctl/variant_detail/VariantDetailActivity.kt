@@ -22,6 +22,7 @@ import com.cr4zyrocket.sapoctl.model.Variant
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
 
 class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewModel {
     companion object {
@@ -208,9 +209,9 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             variantDetailPresenter.product.value = product
             variantDetailPresenter.variant.value = variant
             variantDetailPresenter.txtInventoryOnHand.value =
-                getString(R.string.variantDetailActivity1) + variant.inventories[0].inventoryOnHand
+                getString(R.string.variantDetailActivity1) + NumberFormat.getInstance().format(variant.inventories[0].inventoryOnHand)
             variantDetailPresenter.txtInventoryAvailable.value =
-                getString(R.string.variantDetailActivity2) + variant.inventories[0].inventoryAvailable
+                getString(R.string.variantDetailActivity2) + NumberFormat.getInstance().format(variant.inventories[0].inventoryAvailable)
             variantDetailPresenter.txtInventoryPosition.value =
                 variant.inventories[0].inventoryPosition
             variantDetailPresenter.txtBtnDeleteTitle.value =getString(R.string.btnDeleteVariant)

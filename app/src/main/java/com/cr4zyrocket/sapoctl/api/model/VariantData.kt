@@ -1,6 +1,5 @@
 package com.cr4zyrocket.sapoctl.api.model
 
-import com.cr4zyrocket.sapoctl.model.CompositeItem
 import com.google.gson.annotations.SerializedName
 
 class VariantData {
@@ -68,6 +67,6 @@ class VariantData {
     var variantPrices: MutableList<PriceData>? = null
 
     @SerializedName("composite_items")
-    var variantCompositeItems: MutableList<CompositeItem>? = null
+    var variantCompositeItems: MutableList<CompositeItemData>? = null
 
 }
