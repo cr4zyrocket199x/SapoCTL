@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menuAppBarProductChangeResult"
-        android:icon="@drawable/ic_warehouse"
         android:title="@string/app_name"
         app:showAsAction="ifRoom" />
 </menu>

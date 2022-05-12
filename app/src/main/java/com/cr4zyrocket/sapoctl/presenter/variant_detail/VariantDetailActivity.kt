@@ -20,7 +20,6 @@ import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
 import com.cr4zyrocket.sapoctl.databinding.ActivityVariantDetailBinding
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
-import com.squareup.picasso.Picasso
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat

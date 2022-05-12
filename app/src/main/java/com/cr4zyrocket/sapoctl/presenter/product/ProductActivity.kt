@@ -1,8 +1,11 @@
 package com.cr4zyrocket.sapoctl.presenter.product
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -38,6 +41,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
     private var totalPage: Long = 1
     private var isLoadMore = false
     var keySearch:String=""
+    private lateinit var pref:SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,8 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
             setDisplayShowTitleEnabled(false)
 //            setDisplayHomeAsUpEnabled(true)
         }
+        pref= getSharedPreferences("Product_Info",MODE_PRIVATE)
+        isProductResult=pref.getBoolean("isProductResult",true)
         linearLayoutManager = LinearLayoutManager(this)
         binding.rclvProductList.apply {
             layoutManager = linearLayoutManager
@@ -196,6 +202,13 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_appbar_product, menu)
+        if (menu!=null){
+            if (isProductResult){
+                menu.getItem(0).setIcon(R.drawable.ic_warehouse)
+            }else{
+                menu.getItem(0).setIcon(R.drawable.ic_product)
+            }
+        }
         return true
     }
 
@@ -216,6 +229,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                     productPresenter.initData(isProductResult, currentPage)
                 }
                 binding.rclvProductList.visibility=View.INVISIBLE
+                pref.edit().putBoolean("isProductResult",isProductResult).apply()
             }
         }
         return super.onOptionsItemSelected(item)

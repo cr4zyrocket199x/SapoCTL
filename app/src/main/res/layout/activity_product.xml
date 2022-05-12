@@ -18,6 +18,7 @@
             android:id="@+id/tbProductToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:menu="@menu/menu_appbar_product"
             app:title="@string/app_name" />
 
         <TextView

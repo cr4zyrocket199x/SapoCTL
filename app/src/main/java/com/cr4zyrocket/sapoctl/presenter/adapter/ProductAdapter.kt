@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailActivity
 import com.cr4zyrocket.sapoctl.model.Product
-import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 
 class ProductAdapter(
@@ -45,13 +44,13 @@ class ProductAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ProductAdapter.ProductViewHolder {
+    ): ProductViewHolder {
         return ProductViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_single_product, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: ProductAdapter.ProductViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
         var allAvailable = 0.0
         for (i in 0 until product.variants.size) {

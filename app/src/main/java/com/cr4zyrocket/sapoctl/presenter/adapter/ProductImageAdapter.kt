@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.model.Image
-import com.squareup.picasso.Picasso
 
 class ProductImageAdapter(private val context: Context, images: MutableList<Image>) :
     RecyclerView.Adapter<ProductImageAdapter.PictureViewHolder>() {
