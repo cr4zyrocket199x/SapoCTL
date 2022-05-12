@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.presenter.adapter.PackSizeAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
@@ -76,8 +77,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             binding.tvVariantDetailShowVariantTypeDetail.visibility = View.GONE
 
             if (variant.variantImages.isNotEmpty()) {
-                Picasso.get().load(variant.variantImages[0].imageFullPath).fit().centerCrop()
-                    .into(binding.ivVariantDetailVariantImage)
+                Glide.with(this).load(variant.variantImages[0].imageFullPath).into(binding.ivVariantDetailVariantImage)
             } else {
                 binding.llVariantDetailImageList.visibility = View.VISIBLE
 
@@ -129,8 +129,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
 
                         binding.llVariantDetailImageList.visibility = View.GONE
 
-                        Picasso.get().load(variant.variantImages[0].imageFullPath)
-                            .into(binding.ivVariantDetailVariantImage)
+                        Glide.with(this).load(variant.variantImages[0].imageFullPath).into(binding.ivVariantDetailVariantImage)
                     } else {
                         binding.llVariantDetailImageList.visibility = View.VISIBLE
 

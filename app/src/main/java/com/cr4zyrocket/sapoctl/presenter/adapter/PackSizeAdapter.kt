@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import com.cr4zyrocket.sapoctl.model.Variant
@@ -47,9 +48,7 @@ class PackSizeAdapter(private val context: Context, private val packSizes: Mutab
         if (packSize.variantImages.isEmpty()) {
             holder.ivVariantImage.setImageResource(R.drawable.ic_no_image)
         } else {
-            Picasso.get().load(packSize.variantImages[0].imageFullPath)
-                .fit().centerCrop()
-                .into(holder.ivVariantImage)
+            Glide.with(context).load(packSize.variantImages[0].imageFullPath).into(holder.ivVariantImage)
         }
         holder.ivArrowDownRight.setImageResource(R.drawable.ic_arrow_down_right)
         holder.tvVariantName.text = context.getString(R.string.variantForOneAdapter4)

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.model.Image
 import com.squareup.picasso.Picasso
@@ -32,7 +33,7 @@ class ProductImageAdapter(private val context: Context, images: MutableList<Imag
 
     override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {
         val image = imageList[position]
-        Picasso.get().load(image.imageFullPath).fit().centerCrop().into(holder.ivProductPicture)
+        Glide.with(context).load(image.imageFullPath).into(holder.ivProductPicture)
     }
 
     override fun getItemCount(): Int {

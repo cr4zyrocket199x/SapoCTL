@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import com.cr4zyrocket.sapoctl.model.Variant
@@ -67,9 +68,7 @@ class VariantAdapter(private val context: Context, private val variants: Mutable
     override fun onBindViewHolder(holder: VariantAdapter.VariantViewHolder, position: Int) {
         val variant = variantList[position]
         if (variant.variantImages.isNotEmpty()) {
-            Picasso.get().load(variant.variantImages[0].imageFullPath)
-                .fit().centerCrop()
-                .into(holder.ivSingleVariantImage)
+            Glide.with(context).load(variant.variantImages[0].imageFullPath).into(holder.ivSingleVariantImage)
         } else {
             holder.ivSingleVariantImage.setImageResource(R.drawable.ic_no_image)
         }

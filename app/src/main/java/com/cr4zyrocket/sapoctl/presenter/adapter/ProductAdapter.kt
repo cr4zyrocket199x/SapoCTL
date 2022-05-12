@@ -10,6 +10,7 @@ import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailActivity
 import com.cr4zyrocket.sapoctl.model.Product
@@ -64,9 +65,7 @@ class ProductAdapter(
         if (product.productImages.isNotEmpty()) {
             for (i in 0 until product.productImages.size) {
                 if (product.productImages[i].imagePosition == 1L) {
-                    Picasso.get().load(product.productImages[i].imageFullPath)
-                        .fit().centerCrop()
-                        .into(holder.ivSingleProductImage)
+                    Glide.with(context).load(product.productImages[i].imageFullPath).into(holder.ivSingleProductImage)
                 }
             }
         } else {
