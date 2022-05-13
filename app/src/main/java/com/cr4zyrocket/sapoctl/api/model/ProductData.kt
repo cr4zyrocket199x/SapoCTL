@@ -1,7 +1,5 @@
 package com.cr4zyrocket.sapoctl.api.model
 
-import com.cr4zyrocket.sapoctl.model.Image
-import com.cr4zyrocket.sapoctl.model.Variant
 import com.google.gson.annotations.SerializedName
 
 class ProductData {

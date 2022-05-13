@@ -24,6 +24,8 @@ import kotlinx.coroutines.launch
 class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
     companion object {
         private const val TAG = "ProductActivity"
+        private const val SHARED_PREF_NAME = "Product_Info"
+        private const val SHARED_PREF_IS_PRODUCT_RESULT = "isProductResult"
     }
 
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -51,8 +53,8 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
             setDisplayShowTitleEnabled(false)
 //            setDisplayHomeAsUpEnabled(true)
         }
-        pref= getSharedPreferences("Product_Info",MODE_PRIVATE)
-        isProductResult=pref.getBoolean("isProductResult",true)
+        pref= getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
+        isProductResult=pref.getBoolean(SHARED_PREF_IS_PRODUCT_RESULT,true)
         linearLayoutManager = LinearLayoutManager(this)
         binding.rclvProductList.apply {
             layoutManager = linearLayoutManager
@@ -227,7 +229,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                     productPresenter.initData(isProductResult, currentPage)
                 }
                 binding.rclvProductList.visibility=View.INVISIBLE
-                pref.edit().putBoolean("isProductResult",isProductResult).apply()
+                pref.edit().putBoolean(SHARED_PREF_IS_PRODUCT_RESULT,isProductResult).apply()
             }
         }
         return super.onOptionsItemSelected(item)

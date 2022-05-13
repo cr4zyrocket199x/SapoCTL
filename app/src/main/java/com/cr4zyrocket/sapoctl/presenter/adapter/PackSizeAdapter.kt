@@ -65,8 +65,8 @@ class PackSizeAdapter(private val context: Context, private val packSizes: Mutab
         )
         holder.itemView.setOnClickListener {
             val intent = Intent(context, VariantDetailActivity::class.java)
-            intent.putExtra("productId", packSize.productId)
-            intent.putExtra("variantId", packSize.variantId)
+            intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, packSize.productId)
+            intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, packSize.variantId)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
         }

@@ -27,6 +27,8 @@ import java.text.NumberFormat
 class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewModel {
     companion object {
         private const val TAG = "VariantDetailActivity"
+        const val KEY_PRODUCT_ID = "productId"
+        const val KEY_VARIANT_ID = "variantId"
     }
 
     private lateinit var binding: ActivityVariantDetailBinding
@@ -43,8 +45,8 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             setDisplayHomeAsUpEnabled(true)
         }
 
-        productId = intent.getLongExtra("productId", 0)
-        variantId = intent.getLongExtra("variantId", 0)
+        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
+        variantId = intent.getLongExtra(KEY_VARIANT_ID, 0)
 
         GlobalScope.launch {
             variantDetailPresenter.initData(productId, variantId)

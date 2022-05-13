@@ -1,7 +1,5 @@
 package com.cr4zyrocket.sapoctl.common
 
-import android.content.Context
-import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.api.model.*
 import com.cr4zyrocket.sapoctl.model.*
 
@@ -112,7 +110,7 @@ class Common {
         return priceList
     }
 
-    fun mapCompositeItemToCompositeItemData(compositeItemData: CompositeItemData): CompositeItem {
+    private fun mapCompositeItemToCompositeItemData(compositeItemData: CompositeItemData): CompositeItem {
         return CompositeItem().apply {
             compositeItemSubName = compositeItemData.compositeItemSubName ?: "_ _ _"
             compositeItemSubSKU = compositeItemData.compositeItemSubSKU ?: "_ _ _"

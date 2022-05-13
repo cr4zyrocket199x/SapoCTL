@@ -72,7 +72,7 @@ class ProductAdapter(
         }
         holder.itemView.setOnClickListener {
             val intent = Intent(context, ProductDetailActivity::class.java)
-            intent.putExtra("productId", product.productID)
+            intent.putExtra(ProductDetailActivity.KEY_PRODUCT_ID, product.productID)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
         }

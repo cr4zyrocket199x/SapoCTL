@@ -23,6 +23,7 @@ import java.text.NumberFormat
 class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewModel {
     companion object {
         private const val TAG = "ProductDetailActivity"
+        const val KEY_PRODUCT_ID = "productId"
     }
 
     private lateinit var binding: ActivityProductDetailBinding
@@ -36,7 +37,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
-        productId = intent.getLongExtra("productId", 0)
+        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
         GlobalScope.launch {
             productDetailPresenter.initData(productId)
         }
