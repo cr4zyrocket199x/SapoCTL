@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
         <variable
             name="proP"
             type="com.cr4zyrocket.sapoctl.presenter.product.ProductPresenter" />
     </data>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,18 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:menu="@menu/menu_appbar_product"
-            app:title="@string/app_name" />
-
-        <TextView
-            android:id="@+id/tvProductTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="@{proP.txtProductTitle}"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            app:title="@{proP.txtProductTitle}" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/svProductSearch"
@@ -67,6 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rclvProductList"
                     android:layout_width="match_parent"

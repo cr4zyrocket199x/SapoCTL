@@ -248,6 +248,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
 
                 }
             }
+            binding.notifyChange()
             binding.varDP = variantDetailPresenter
             binding.ncvVariantDetail.visibility=View.VISIBLE
         },500)

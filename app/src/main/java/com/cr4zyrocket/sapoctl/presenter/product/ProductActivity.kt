@@ -1,11 +1,9 @@
 package com.cr4zyrocket.sapoctl.presenter.product
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -14,12 +12,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.presenter.adapter.ProductAdapter
-import com.cr4zyrocket.sapoctl.presenter.adapter.VariantAdapter
 import com.cr4zyrocket.sapoctl.databinding.ActivityProductBinding
 import com.cr4zyrocket.sapoctl.model.Meta
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
+import com.cr4zyrocket.sapoctl.presenter.adapter.ProductAdapter
+import com.cr4zyrocket.sapoctl.presenter.adapter.VariantAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -276,6 +274,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                 productPresenter.txtProductCount.value =
                     meta.metaTotal.toString() + getString(R.string.productActivity2)
             }
+            binding.notifyChange()
             binding.proP=productPresenter
             binding.rclvProductList.visibility=View.VISIBLE
         },500)
