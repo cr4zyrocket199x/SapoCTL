@@ -1,5 +1,6 @@
 package com.cr4zyrocket.sapoctl.presenter.product_detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -16,6 +17,7 @@ import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.VariantForOneAdapter
 import com.cr4zyrocket.sapoctl.model.Product
+import com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -28,7 +30,8 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
 
     private lateinit var binding: ActivityProductDetailBinding
     private var productDetailPresenter = ProductDetailPresenter(this)
-    private var productId: Long = 0
+    private var productId: Long = -1
+    private var variantId: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +45,14 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
             productDetailPresenter.initData(productId)
         }
         binding.ncvProductDetail.visibility = View.INVISIBLE
+        binding.tvProductDetailShowCompositeDetail.setOnClickListener {
+            val intent = Intent(this, CompositeItemActivity::class.java)
+            intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
+            intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -71,6 +82,8 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
                 binding.trProductDetailCompositeBrandName.visibility = View.GONE
                 binding.trProductDetailCompositeTag.visibility = View.GONE
                 binding.crdProductDetailProductVariants.visibility = View.GONE
+
+                variantId=product.variants[0].variantId
 
                 when (product.variants[0].productType) {
                     "lots_date" -> {

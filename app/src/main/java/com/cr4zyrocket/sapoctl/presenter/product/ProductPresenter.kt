@@ -21,9 +21,9 @@ class ProductPresenter(
 
     override suspend fun initData(isProductResult: Boolean, currentPage: Long) {
         if (isProductResult) {
-            productInterfaceViewModel.showProductList(getProductList(currentPage,""))
+            productInterfaceViewModel.showProductList(getProductList(currentPage, ""))
         } else {
-            productInterfaceViewModel.showVariantList(getVariantList(currentPage,""))
+            productInterfaceViewModel.showVariantList(getVariantList(currentPage, ""))
         }
         productInterfaceViewModel.setRefresh(false)
     }
@@ -51,10 +51,14 @@ class ProductPresenter(
         val variantList = mutableListOf<Variant>()
         val responseData = API.apiService.getResponseVariantList(currentPage, keySearch)
         if (responseData.isSuccessful) {
-            responseData.body()!!.variantList!!.forEach {
-                variantList.add(common.mapVariantToVariantData(it))
+            responseData.body()?.let { it ->
+                it.variantList?.forEach { variantData ->
+                    variantList.add(common.mapVariantToVariantData(variantData))
+                }
+                it.metaData?.let {
+                    productInterfaceViewModel.setMutableLiveData(common.mapMetaToMetaData(it))
+                }
             }
-            productInterfaceViewModel.setMutableLiveData(common.mapMetaToMetaData(responseData.body()!!.metaData!!))
         }
         return variantList
     }

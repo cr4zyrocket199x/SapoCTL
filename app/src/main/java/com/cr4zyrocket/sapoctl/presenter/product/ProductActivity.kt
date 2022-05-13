@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,13 +46,10 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityProductBinding.inflate(layoutInflater)
-
-        setContentView(binding.root)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_product)
         setSupportActionBar(binding.tbProductToolbar)
         supportActionBar?.apply {
             setDisplayShowTitleEnabled(false)
-//            setDisplayHomeAsUpEnabled(true)
         }
         pref= getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
         isProductResult=pref.getBoolean(SHARED_PREF_IS_PRODUCT_RESULT,true)
@@ -65,7 +63,6 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                 )
             )
         }
-
         binding.svProductSearch.setOnQueryTextListener(object :
             androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {

@@ -112,8 +112,13 @@ class Common {
 
     private fun mapCompositeItemToCompositeItemData(compositeItemData: CompositeItemData): CompositeItem {
         return CompositeItem().apply {
-            compositeItemSubName = compositeItemData.compositeItemSubName ?: "_ _ _"
-            compositeItemSubSKU = compositeItemData.compositeItemSubSKU ?: "_ _ _"
+            compositeSubItemId = compositeItemData.compositeSubItemId ?: 0
+            compositeSubItemProductId = compositeItemData.compositeSubItemProductId ?: 0
+            compositeSubItemName = compositeItemData.compositeSubItemName ?: "_ _ _"
+            compositeSubItemSKU = compositeItemData.compositeSubItemSKU ?: "_ _ _"
+            compositeSubItemPrice = compositeItemData.compositeSubItemPrice ?: 0
+            compositeSubItemQuantity = compositeItemData.compositeSubItemQuantity ?: 0
+            compositeSubItemType = compositeItemData.compositeSubItemType ?: "_ _ _"
         }
     }
 }

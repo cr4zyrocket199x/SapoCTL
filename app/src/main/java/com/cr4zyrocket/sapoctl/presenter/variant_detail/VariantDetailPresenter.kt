@@ -12,7 +12,8 @@ class VariantDetailPresenter(
     companion object {
         private const val TAG = "ProductDetailPresenter"
     }
-    private var common= Common()
+
+    private var common = Common()
     var product = MutableLiveData<Product>()
     var variant = MutableLiveData<Variant>()
     var txtVariantTaxable = MutableLiveData<String>()
@@ -26,10 +27,10 @@ class VariantDetailPresenter(
     var txtInventoryPosition = MutableLiveData<String>()
     var txtProductType = MutableLiveData<String>()
 
-    override suspend fun initData(productId: Long,variantId: Long) {
-        val product=getProduct(productId)
-        val variant=getVariant(productId,variantId)
-        variantDetailInterfaceViewModel.showVariantDetail(product,variant)
+    override suspend fun initData(productId: Long, variantId: Long) {
+        val product = getProduct(productId)
+        val variant = getVariant(productId, variantId)
+        variantDetailInterfaceViewModel.showVariantDetail(product, variant)
         variantDetailInterfaceViewModel.setMutableLiveData(product, variant)
     }
 
@@ -37,16 +38,20 @@ class VariantDetailPresenter(
         var product = Product()
         val responseData = API.apiService.getProduct(productId)
         if (responseData.isSuccessful) {
-            product = common.mapProductToProductData(responseData.body()!!.product!!)
+            responseData.body()?.product?.let {
+                product = common.mapProductToProductData(it)
+            }
         }
         return product
     }
 
     override suspend fun getVariant(productId: Long, variantId: Long): Variant {
         var variant = Variant()
-        val responseData = API.apiService.getVariant(productId,variantId)
+        val responseData = API.apiService.getVariant(productId, variantId)
         if (responseData.isSuccessful) {
-            variant = common.mapVariantToVariantData(responseData.body()!!.variant!!)
+            responseData.body()?.variant?.let {
+                variant = common.mapVariantToVariantData(it)
+            }
         }
         return variant
     }

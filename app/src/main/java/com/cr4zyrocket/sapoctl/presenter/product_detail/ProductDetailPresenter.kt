@@ -43,7 +43,9 @@ class ProductDetailPresenter(
         var product = Product()
         val responseData = API.apiService.getProduct(productId)
         if (responseData.isSuccessful) {
-            product = common.mapProductToProductData(responseData.body()!!.product!!)
+            responseData.body()?.product?.let {
+                product = common.mapProductToProductData(it)
+            }
         }
         return product
     }

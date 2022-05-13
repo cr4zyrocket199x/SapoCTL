@@ -13,7 +13,7 @@
     <string name="productInfo8">Tags</string>
     <string name="compositeDetailTitle">Thành phần Combo</string>
     <string name="compositeDetail1">Xem chi tiết</string>
-    <string name="productInventory1">Tồn kho</string>
+    <string name="productInventory1">Kho hàng</string>
     <string name="productInventory2">Vị trí lưu kho:</string>
     <string name="productInformationAddition1">Thông tin thêm</string>
     <string name="productInformationAddition2">Mô tả phân loại sản phẩm</string>
@@ -25,7 +25,7 @@
     <string name="variantInfo2">Barcode</string>
     <string name="variantInfo3">Khối lượng</string>
     <string name="variantInfo4">Đơn vị tính</string>
-    <string name="variantInventory1">Tồn kho</string>
+    <string name="variantInventory1">Kho hàng</string>
     <string name="variantInventory2">Vị trí lưu kho: "</string>
     <string name="btnDeleteVariant">Xóa phiên bản</string>
     <string name="dvqd">Đơn vị quy đổi</string>
@@ -65,4 +65,6 @@
     <string name="packSizeCount">Số lượng quy đổi</string>
     <string name="composite">Combo</string>
     <string name="normal">Thường</string>
+    <string name="compositeItemActivityTitle">Thành phần combo</string>
+    <string name="total">Tổng "</string>
 </resources>

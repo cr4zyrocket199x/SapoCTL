@@ -1,5 +1,6 @@
 package com.cr4zyrocket.sapoctl.presenter.variant_detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,6 +21,7 @@ import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
 import com.cr4zyrocket.sapoctl.databinding.ActivityVariantDetailBinding
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
+import com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -33,8 +35,8 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
 
     private lateinit var binding: ActivityVariantDetailBinding
     private var variantDetailPresenter = VariantDetailPresenter(this)
-    private var productId: Long = 0
-    private var variantId: Long = 0
+    private var productId: Long = -1
+    private var variantId: Long = -1
     private var packSizeList = mutableListOf<Variant>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +54,14 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             variantDetailPresenter.initData(productId, variantId)
         }
         binding.ncvVariantDetail.visibility=View.INVISIBLE
+
+        binding.tvVariantDetailShowCompositeDetail.setOnClickListener {
+            val intent = Intent(this, CompositeItemActivity::class.java)
+            intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
+            intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

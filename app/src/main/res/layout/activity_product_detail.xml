@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+
         <variable
             name="proDP"
             type="com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailPresenter" />
@@ -12,8 +13,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:background="@color/gray_background"
+        android:orientation="vertical"
         tools:context=".presenter.product_detail.ProductDetailActivity">
 
         <androidx.appcompat.widget.Toolbar
@@ -357,6 +358,8 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:focusable="true"
                                     android:gravity="end"
                                     android:text="@string/compositeDetail1"
                                     android:textColor="@color/clickable" />
@@ -407,6 +410,7 @@
                             </TableRow>
 
                             <TableRow>
+
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
@@ -461,7 +465,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:nestedScrollingEnabled="false"/>
+                            android:nestedScrollingEnabled="false" />
 
                         <View
                             android:layout_width="match_parent"
@@ -672,7 +676,7 @@
                             android:id="@+id/rclvProductDetailProductVariantList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false"/>
+                            android:nestedScrollingEnabled="false" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

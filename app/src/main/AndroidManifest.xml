@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SapoCTL">
         <activity
+            android:name="com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity"
+            android:exported="false" />
+        <activity
             android:name="com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity"
             android:exported="false" />
         <activity
@@ -26,9 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.MainActivity"
-            android:exported="false" />
     </application>
 
 </manifest>
