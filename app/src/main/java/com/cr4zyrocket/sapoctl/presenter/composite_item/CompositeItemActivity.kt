@@ -1,24 +1,18 @@
 package com.cr4zyrocket.sapoctl.presenter.composite_item
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.databinding.ActivityCompositeItemBinding
-import com.cr4zyrocket.sapoctl.databinding.ActivityProductBinding
-import com.cr4zyrocket.sapoctl.model.CompositeItem
-import com.cr4zyrocket.sapoctl.model.Meta
 import com.cr4zyrocket.sapoctl.model.Variant
 import com.cr4zyrocket.sapoctl.presenter.adapter.CompositeItemAdapter
-import com.cr4zyrocket.sapoctl.presenter.adapter.VariantAdapter
-import com.cr4zyrocket.sapoctl.presenter.product.ProductPresenter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat

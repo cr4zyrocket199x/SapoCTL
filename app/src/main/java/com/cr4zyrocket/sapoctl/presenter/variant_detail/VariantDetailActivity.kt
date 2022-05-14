@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -16,14 +15,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.presenter.adapter.PackSizeAdapter
-import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
-import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
 import com.cr4zyrocket.sapoctl.databinding.ActivityVariantDetailBinding
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
+import com.cr4zyrocket.sapoctl.presenter.adapter.PackSizeAdapter
+import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
+import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
 import com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity
-import com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat

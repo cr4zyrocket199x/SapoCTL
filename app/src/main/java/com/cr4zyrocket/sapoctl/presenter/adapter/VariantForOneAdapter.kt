@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import com.cr4zyrocket.sapoctl.model.Variant
+import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import java.text.NumberFormat
 import java.util.*
 

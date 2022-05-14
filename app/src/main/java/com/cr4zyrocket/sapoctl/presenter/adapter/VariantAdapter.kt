@@ -2,16 +2,18 @@ package com.cr4zyrocket.sapoctl.presenter.adapter
 
 import android.content.Context
 import android.content.Intent
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Filter
+import android.widget.Filterable
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import com.cr4zyrocket.sapoctl.model.Variant
+import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import java.text.NumberFormat
 import java.util.*
 

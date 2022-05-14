@@ -1,8 +1,5 @@
 package com.cr4zyrocket.sapoctl.presenter.variant_detail
 
-import androidx.databinding.Bindable
-import androidx.databinding.BindingMethods
-import androidx.databinding.Observable
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
 

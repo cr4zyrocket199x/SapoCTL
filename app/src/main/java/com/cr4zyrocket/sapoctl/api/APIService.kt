@@ -1,7 +1,9 @@
 package com.cr4zyrocket.sapoctl.api
 
-import com.cr4zyrocket.sapoctl.api.model.*
-import retrofit2.Call
+import com.cr4zyrocket.sapoctl.api.model.ResponseProduct
+import com.cr4zyrocket.sapoctl.api.model.ResponseProductList
+import com.cr4zyrocket.sapoctl.api.model.ResponseVariant
+import com.cr4zyrocket.sapoctl.api.model.ResponseVariantList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -17,7 +19,6 @@ interface APIService {
 
     @GET("admin/products/{productId}.json")
     suspend fun getProduct(@Path("productId") productId: Long): Response<ResponseProduct>
-
 
     @GET("admin/products/{productId}/variants/{variantId}.json")
     suspend fun getVariant(

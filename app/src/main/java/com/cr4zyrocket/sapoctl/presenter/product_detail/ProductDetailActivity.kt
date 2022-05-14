@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.databinding.ActivityProductDetailBinding
+import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.VariantForOneAdapter
-import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

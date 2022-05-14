@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.cr4zyrocket.sapoctl.api.API
 import com.cr4zyrocket.sapoctl.common.Common
 import com.cr4zyrocket.sapoctl.model.Variant
-import kotlinx.coroutines.delay
 
 class CompositeItemPresenter (private val compositeItemInterfaceViewModel: CompositeItemInterface.ViewModel):CompositeItemInterface.Presenter{
     companion object {
