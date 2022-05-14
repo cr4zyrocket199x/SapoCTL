@@ -20,8 +20,16 @@
             android:id="@+id/tbVariantDetailToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:title="@{varDP.txtToolbarTitle}" />
+            android:background="@color/white">
+
+            <TextView
+                style="@style/textBoldBlackStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@{varDP.txtToolbarTitle}"
+                android:textSize="20sp" />
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/ncvVariantDetail"

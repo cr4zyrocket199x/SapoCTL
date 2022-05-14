@@ -45,6 +45,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
         setSupportActionBar(binding.tbVariantDetailToolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
         }
 
         getIntentExtra()

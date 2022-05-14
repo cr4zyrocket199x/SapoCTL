@@ -51,6 +51,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
         supportActionBar?.apply {
             setDisplayShowTitleEnabled(false)
         }
+
         setUpSharedPreferences()
 
         setUpRecyclerView()

@@ -8,10 +8,9 @@
             type="com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemPresenter" />
     </data>
 
-    <RelativeLayout
-        android:id="@+id/rlCompositeItem"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/rlCompositeItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_background"
@@ -21,8 +20,16 @@
             android:id="@+id/tbCompositeItemToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:title="@string/compositeItemActivityTitle" />
+            android:background="@color/white">
+
+            <TextView
+                style="@style/textBoldBlackStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/compositeItemActivityTitle"
+                android:textSize="20sp" />
+        </androidx.appcompat.widget.Toolbar>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rclvCompositeItemList"

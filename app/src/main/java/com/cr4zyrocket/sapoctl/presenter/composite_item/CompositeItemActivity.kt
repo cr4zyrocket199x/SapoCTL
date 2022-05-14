@@ -36,6 +36,7 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
         setSupportActionBar(binding.tbCompositeItemToolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
         }
 
         getIntentExtra()

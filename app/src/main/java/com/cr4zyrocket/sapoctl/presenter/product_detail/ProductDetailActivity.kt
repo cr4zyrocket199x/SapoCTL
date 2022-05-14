@@ -39,6 +39,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
         setSupportActionBar(binding.tbProductDetailToolbar)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
         }
 
         getIntentExtra()
