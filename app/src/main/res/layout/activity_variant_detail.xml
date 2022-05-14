@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout >
+<layout>
 
     <data>
 
@@ -384,15 +384,16 @@
                                 </LinearLayout>
 
                                 <TextView
-                                    android:clickable="true"
                                     android:id="@+id/tvVariantDetailShowCompositeDetail"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
+                                    android:clickable="true"
+                                    android:focusable="true"
                                     android:gravity="end"
+                                    android:onClick="@{()->varDP.showCompositeSubItemList()}"
                                     android:text="@string/compositeDetail1"
-                                    android:textColor="@color/clickable"
-                                    android:focusable="true" />
+                                    android:textColor="@color/clickable" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -475,8 +476,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginTop="10dp"
-                            android:focusable="true"
                             android:clickable="true"
+                            android:focusable="true"
                             android:text="@{varDP.txtShowProductTypeDetail}"
                             android:textColor="@color/clickable" />
 
@@ -494,7 +495,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:nestedScrollingEnabled="false"/>
+                            android:nestedScrollingEnabled="false" />
 
                         <View
                             android:layout_width="match_parent"
@@ -603,7 +604,7 @@
                             android:id="@+id/rclvVariantDetailPackSizeList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false"/>
+                            android:nestedScrollingEnabled="false" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

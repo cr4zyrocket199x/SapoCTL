@@ -15,7 +15,7 @@ object API {
         addInterceptor {
             val newRequest: Request = it.request()
                 .newBuilder()
-                .addHeader("X-Sapo-SessionId", "3fb6993a-0cbf-446f-42c0-c1f04939aa8e")
+                .addHeader("X-Sapo-SessionId", "9a9bc0d9-1323-8e04-7dd1-f19f38ef9731")
                 .build()
             it.proceed(newRequest)
         }

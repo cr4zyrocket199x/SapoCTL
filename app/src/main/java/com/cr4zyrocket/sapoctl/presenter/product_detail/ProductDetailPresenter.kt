@@ -49,4 +49,8 @@ class ProductDetailPresenter(
         }
         return product
     }
+
+    override fun showCompositeSubItemList() {
+        productDetailInterfaceViewModel.moveToCompositeItemActivity()
+    }
 }

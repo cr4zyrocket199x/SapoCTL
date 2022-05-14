@@ -51,19 +51,20 @@ class CompositeItemAdapter(
                 return@forEach
             }
         }
-        holder.tvCompositeSubItemName.text=compositeSubItem.compositeSubItemName
-        holder.tvCompositeSubItemQuantity.text=compositeSubItem.compositeSubItemQuantity.toString()
-        holder.tvCompositeSubItemSKU.text=compositeSubItem.compositeSubItemSKU
-        holder.tvCompositeSubItemRetailPrice.text= NumberFormat.getInstance(Locale.US).format(compositeSubItem.compositeSubItemPrice).toString()
+        holder.apply {
+            tvCompositeSubItemName.text=compositeSubItem.compositeSubItemName
+            tvCompositeSubItemQuantity.text=compositeSubItem.compositeSubItemQuantity.toString()
+            tvCompositeSubItemSKU.text=compositeSubItem.compositeSubItemSKU
+            tvCompositeSubItemRetailPrice.text= NumberFormat.getInstance(Locale.US).format(compositeSubItem.compositeSubItemPrice).toString()
 
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, VariantDetailActivity::class.java)
-            intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, compositeItemList[position].compositeSubItemProductId)
-            intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, compositeItemList[position].compositeSubItemId)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(intent)
+            itemView.setOnClickListener {
+                val intent = Intent(context, VariantDetailActivity::class.java)
+                intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, compositeItemList[position].compositeSubItemProductId)
+                intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, compositeItemList[position].compositeSubItemId)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            }
         }
-
     }
 
     override fun getItemCount(): Int {

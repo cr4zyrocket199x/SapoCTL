@@ -32,9 +32,11 @@ class ProductPriceAdapter(private val context: Context, prices: MutableList<Pric
 
     override fun onBindViewHolder(holder: PriceViewHolder, position: Int) {
         val price = priceList[position]
-        holder.tvPriceName.text = price.priceName
-        holder.tvPriceValue.text =
-            NumberFormat.getInstance(Locale.US).format(price.priceValue).toString()
+        holder.apply {
+            tvPriceName.text = price.priceName
+            tvPriceValue.text =
+                NumberFormat.getInstance(Locale.US).format(price.priceValue).toString()
+        }
 
     }
 

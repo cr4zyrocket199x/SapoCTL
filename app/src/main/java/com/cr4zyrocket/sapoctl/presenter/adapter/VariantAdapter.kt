@@ -66,25 +66,27 @@ class VariantAdapter(private val context: Context, private val variants: Mutable
 
     override fun onBindViewHolder(holder: VariantAdapter.VariantViewHolder, position: Int) {
         val variant = variantList[position]
-        if (variant.variantImages.isNotEmpty()) {
-            Glide.with(context).load(variant.variantImages[0].imageFullPath).into(holder.ivSingleVariantImage)
-        } else {
-            holder.ivSingleVariantImage.setImageResource(R.drawable.ic_no_image)
-        }
-        holder.tvSingleVariantName.text = variant.variantName
-        holder.tvSingleVariantSKU.text =
-            StringBuffer(context.getString(R.string.variantAdapter1) + variant.variantSKU)
-        holder.tvSingleVariantRetailPrice.text = NumberFormat.getInstance(
-            Locale.US
-        ).format(variant.variantRetailPrice).toString()
-        holder.tvSingleVariantAvailable.text =
-            NumberFormat.getInstance().format(variant.inventories[0].inventoryAvailable).toString()
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, VariantDetailActivity::class.java)
-            intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, variant.productId)
-            intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variant.variantId)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(intent)
+        holder.apply {
+            if (variant.variantImages.isNotEmpty()) {
+                Glide.with(context).load(variant.variantImages[0].imageFullPath).into(ivSingleVariantImage)
+            } else {
+                ivSingleVariantImage.setImageResource(R.drawable.ic_no_image)
+            }
+            tvSingleVariantName.text = variant.variantName
+            tvSingleVariantSKU.text =
+                StringBuffer(context.getString(R.string.variantAdapter1) + variant.variantSKU)
+            tvSingleVariantRetailPrice.text = NumberFormat.getInstance(
+                Locale.US
+            ).format(variant.variantRetailPrice).toString()
+            tvSingleVariantAvailable.text =
+                NumberFormat.getInstance().format(variant.inventories[0].inventoryAvailable).toString()
+            itemView.setOnClickListener {
+                val intent = Intent(context, VariantDetailActivity::class.java)
+                intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, variant.productId)
+                intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variant.variantId)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            }
         }
     }
 

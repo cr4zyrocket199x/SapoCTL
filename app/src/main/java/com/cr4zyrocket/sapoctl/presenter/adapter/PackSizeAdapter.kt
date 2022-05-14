@@ -44,31 +44,33 @@ class PackSizeAdapter(private val context: Context, private val packSizes: Mutab
 
     override fun onBindViewHolder(holder: PackSizeAdapter.PackSizeViewHolder, position: Int) {
         val packSize = packSizeList[position]
-        if (packSize.variantImages.isEmpty()) {
-            holder.ivVariantImage.setImageResource(R.drawable.ic_no_image)
-        } else {
-            Glide.with(context).load(packSize.variantImages[0].imageFullPath).into(holder.ivVariantImage)
-        }
-        holder.ivArrowDownRight.setImageResource(R.drawable.ic_arrow_down_right)
-        holder.tvVariantName.text = context.getString(R.string.variantForOneAdapter4)
-        holder.tvVariantSKU.text =
-            StringBuffer(context.getString(R.string.variantForOneAdapter1) + packSize.variantSKU)
-        holder.tvVariantRetailPrice.text =
-            NumberFormat.getInstance(Locale.US).format(packSize.variantRetailPrice).toString()
-        holder.tvVariantAvailable.text = StringBuffer(
-            context.getString(R.string.variantForOneAdapter2) + NumberFormat.getInstance()
-                .format(packSize.inventories[0].inventoryAvailable).toString()
-        )
-        holder.tvVariantOnHand.text = StringBuffer(
-            context.getString(R.string.variantForOneAdapter3) + NumberFormat.getInstance()
-                .format(packSize.inventories[0].inventoryOnHand).toString()
-        )
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, VariantDetailActivity::class.java)
-            intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, packSize.productId)
-            intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, packSize.variantId)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(intent)
+        holder.apply {
+            if (packSize.variantImages.isEmpty()) {
+                ivVariantImage.setImageResource(R.drawable.ic_no_image)
+            } else {
+                Glide.with(context).load(packSize.variantImages[0].imageFullPath).into(ivVariantImage)
+            }
+            ivArrowDownRight.setImageResource(R.drawable.ic_arrow_down_right)
+            tvVariantName.text = context.getString(R.string.variantForOneAdapter4)
+            tvVariantSKU.text =
+                StringBuffer(context.getString(R.string.variantForOneAdapter1) + packSize.variantSKU)
+            tvVariantRetailPrice.text =
+                NumberFormat.getInstance(Locale.US).format(packSize.variantRetailPrice).toString()
+            tvVariantAvailable.text = StringBuffer(
+                context.getString(R.string.variantForOneAdapter2) + NumberFormat.getInstance()
+                    .format(packSize.inventories[0].inventoryAvailable).toString()
+            )
+            tvVariantOnHand.text = StringBuffer(
+                context.getString(R.string.variantForOneAdapter3) + NumberFormat.getInstance()
+                    .format(packSize.inventories[0].inventoryOnHand).toString()
+            )
+            itemView.setOnClickListener {
+                val intent = Intent(context, VariantDetailActivity::class.java)
+                intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, packSize.productId)
+                intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, packSize.variantId)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            }
         }
     }
 

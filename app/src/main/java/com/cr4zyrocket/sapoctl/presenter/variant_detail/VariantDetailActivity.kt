@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -22,6 +23,7 @@ import com.cr4zyrocket.sapoctl.databinding.ActivityVariantDetailBinding
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
 import com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity
+import com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -47,21 +49,9 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             setDisplayHomeAsUpEnabled(true)
         }
 
-        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
-        variantId = intent.getLongExtra(KEY_VARIANT_ID, 0)
+        getIntentExtra()
 
-        GlobalScope.launch {
-            variantDetailPresenter.initData(productId, variantId)
-        }
-        binding.ncvVariantDetail.visibility=View.INVISIBLE
-
-        binding.tvVariantDetailShowCompositeDetail.setOnClickListener {
-            val intent = Intent(this, CompositeItemActivity::class.java)
-            intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
-            intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-        }
+        initData()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -264,5 +254,25 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             binding.varDP = variantDetailPresenter
             binding.ncvVariantDetail.visibility=View.VISIBLE
         },500)
+    }
+
+    override fun moveToCompositeItemActivity() {
+        val intent = Intent(applicationContext, CompositeItemActivity::class.java)
+        intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
+        intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
+    private fun getIntentExtra(){
+        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
+        variantId = intent.getLongExtra(KEY_VARIANT_ID, 0)
+    }
+
+    private fun initData(){
+        GlobalScope.launch {
+            variantDetailPresenter.initData(productId, variantId)
+        }
+        binding.ncvVariantDetail.visibility=View.INVISIBLE
     }
 }

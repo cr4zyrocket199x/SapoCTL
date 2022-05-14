@@ -7,6 +7,8 @@ interface ProductDetailInterface {
         fun showProductDetail(product: Product)
 
         fun setMutableLiveData(product: Product)
+
+        fun moveToCompositeItemActivity()
     }
 
     interface Presenter {
@@ -14,5 +16,7 @@ interface ProductDetailInterface {
         suspend fun initData(productId: Long)
 
         suspend fun getProduct(productId: Long): Product
+
+        fun showCompositeSubItemList()
     }
 }

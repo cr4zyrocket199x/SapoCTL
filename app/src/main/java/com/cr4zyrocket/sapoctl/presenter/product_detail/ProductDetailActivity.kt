@@ -40,18 +40,10 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
-        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
-        GlobalScope.launch {
-            productDetailPresenter.initData(productId)
-        }
-        binding.ncvProductDetail.visibility = View.INVISIBLE
-        binding.tvProductDetailShowCompositeDetail.setOnClickListener {
-            val intent = Intent(this, CompositeItemActivity::class.java)
-            intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
-            intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-        }
+
+        getIntentExtra()
+
+        initData()
 
     }
 
@@ -203,5 +195,24 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
             binding.notifyChange()
             binding.ncvProductDetail.visibility = View.VISIBLE
         }, 500)
+    }
+
+    override fun moveToCompositeItemActivity() {
+        val intent = Intent(this, CompositeItemActivity::class.java)
+        intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
+        intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+    }
+
+    private fun getIntentExtra(){
+        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
+    }
+
+    private fun initData(){
+        GlobalScope.launch {
+            productDetailPresenter.initData(productId)
+        }
+        binding.ncvProductDetail.visibility = View.INVISIBLE
     }
 }

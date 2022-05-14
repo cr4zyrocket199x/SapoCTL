@@ -58,23 +58,25 @@ class ProductAdapter(
                 allAvailable += product.variants[i].inventories[0].inventoryAvailable
             }
         }
-        holder.tvSingleProductName.text = product.productName
-        holder.tvSingleProductVariantCount.text = product.variants.size.toString()
-        holder.tvSingleProductAvailable.text = NumberFormat.getInstance().format(allAvailable)
-        if (product.productImages.isNotEmpty()) {
-            for (i in 0 until product.productImages.size) {
-                if (product.productImages[i].imagePosition == 1L) {
-                    Glide.with(context).load(product.productImages[i].imageFullPath).into(holder.ivSingleProductImage)
+        holder.apply {
+            tvSingleProductName.text = product.productName
+            tvSingleProductVariantCount.text = product.variants.size.toString()
+            tvSingleProductAvailable.text = NumberFormat.getInstance().format(allAvailable)
+            if (product.productImages.isNotEmpty()) {
+                for (i in 0 until product.productImages.size) {
+                    if (product.productImages[i].imagePosition == 1L) {
+                        Glide.with(context).load(product.productImages[i].imageFullPath).into(ivSingleProductImage)
+                    }
                 }
+            } else {
+                ivSingleProductImage.setImageResource(R.drawable.ic_no_image)
             }
-        } else {
-            holder.ivSingleProductImage.setImageResource(R.drawable.ic_no_image)
-        }
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context, ProductDetailActivity::class.java)
-            intent.putExtra(ProductDetailActivity.KEY_PRODUCT_ID, product.productID)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(intent)
+            itemView.setOnClickListener {
+                val intent = Intent(context, ProductDetailActivity::class.java)
+                intent.putExtra(ProductDetailActivity.KEY_PRODUCT_ID, product.productID)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(intent)
+            }
         }
     }
 }

@@ -357,6 +357,7 @@
                                     android:clickable="true"
                                     android:focusable="true"
                                     android:gravity="end"
+                                    android:onClick="@{()->proDP.showCompositeSubItemList()}"
                                     android:text="@string/compositeDetail1"
                                     android:textColor="@color/clickable" />
                             </LinearLayout>

@@ -43,12 +43,10 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
-        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
-        variantId = intent.getLongExtra(KEY_VARIANT_ID, 0)
-        GlobalScope.launch {
-            compositeItemPresenter.initData(productId, variantId)
-        }
-        binding.rlCompositeItem.visibility=View.INVISIBLE
+
+        getIntentExtra()
+
+        initData()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -89,5 +87,17 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
             binding.comItemP = compositeItemPresenter
             binding.rlCompositeItem.visibility=View.VISIBLE
         }, 500)
+    }
+
+    private fun getIntentExtra(){
+        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
+        variantId = intent.getLongExtra(KEY_VARIANT_ID, 0)
+    }
+
+    private fun initData(){
+        GlobalScope.launch {
+            compositeItemPresenter.initData(productId, variantId)
+        }
+        binding.rlCompositeItem.visibility=View.INVISIBLE
     }
 }

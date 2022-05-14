@@ -55,4 +55,8 @@ class VariantDetailPresenter(
         }
         return variant
     }
+
+    override fun showCompositeSubItemList() {
+        variantDetailInterfaceViewModel.moveToCompositeItemActivity()
+    }
 }
