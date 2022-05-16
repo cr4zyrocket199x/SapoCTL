@@ -12,7 +12,9 @@ import com.cr4zyrocket.sapoctl.model.Image
 
 class ProductImageAdapter(private val context: Context, images: MutableList<Image>) :
     RecyclerView.Adapter<ProductImageAdapter.PictureViewHolder>() {
-
+    companion object{
+        private const val TAG = "ProductImageAdapter"
+    }
     private var imageList = mutableListOf<Image>()
 
     init {

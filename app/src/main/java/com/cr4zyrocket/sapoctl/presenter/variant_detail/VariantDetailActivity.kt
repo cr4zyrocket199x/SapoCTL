@@ -25,6 +25,7 @@ import com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
+import java.util.*
 
 class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewModel {
     companion object {
@@ -76,7 +77,13 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             binding.llVariantDetailImageList.visibility = View.GONE
             binding.tvVariantDetailShowVariantTypeDetail.visibility = View.GONE
 
-            variantDetailPresenter.txtVariantWeight.value = NumberFormat.getInstance().format(variant.variantWeightValue).toString()
+            if(variant.variantWeightUnit==""||variant.variantWeightUnit=="g") {
+                variantDetailPresenter.txtVariantWeight.value =
+                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue).toString() + "g"
+            }else{
+                variantDetailPresenter.txtVariantWeight.value =
+                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue*1000).toString() + "g"
+            }
             if (variant.variantImages.isNotEmpty()) {
                 Glide.with(this).load(variant.variantImages[0].imageFullPath).into(binding.ivVariantDetailVariantImage)
             } else {

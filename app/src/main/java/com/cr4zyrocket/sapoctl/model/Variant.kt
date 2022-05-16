@@ -10,7 +10,7 @@ class Variant {
 
     lateinit var variantBarCode: String
 
-    lateinit var productUnit: String
+    lateinit var variantUnit: String
 
     var variantRetailPrice: Long = 0
 

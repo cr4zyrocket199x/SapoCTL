@@ -44,7 +44,7 @@ class Common {
             variantName = variantData.variantName ?: "_ _ _"
             variantSKU = variantData.variantSKU ?: "_ _ _"
             variantBarCode = variantData.variantBarCode ?: "_ _ _"
-            productUnit = variantData.productUnit ?: "_ _ _"
+            variantUnit = variantData.variantUnit ?: "_ _ _"
             variantRetailPrice = variantData.variantRetailPrice ?: 0
             variantSellable = variantData.variantSellable ?: false
             variantTaxable = variantData.variantTaxable ?: false

@@ -15,9 +15,6 @@ class VariantData {
     @SerializedName("barcode")
     var variantBarCode: String? = null
 
-    @SerializedName("unit")
-    var productUnit: String? = null
-
     @SerializedName("variant_retail_price")
     var variantRetailPrice: Long? = -1
 
@@ -29,6 +26,9 @@ class VariantData {
 
     @SerializedName("weight_unit")
     var variantWeightUnit: String? = null
+
+    @SerializedName("unit")
+    var variantUnit: String? = null
 
     @SerializedName("product_type")
     var productType: String? = null
