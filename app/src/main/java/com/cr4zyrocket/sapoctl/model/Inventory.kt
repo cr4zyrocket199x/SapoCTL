@@ -1,9 +1,13 @@
 package com.cr4zyrocket.sapoctl.model
 
-class Inventory {
-    var inventoryOnHand: Double = 0.0
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-    var inventoryAvailable: Double = 0.0
+@Parcelize
+data class Inventory(
+    var inventoryOnHand: Double = 0.0,
 
-    lateinit var inventoryPosition: String
-}
+    var inventoryAvailable: Double = 0.0,
+
+    var inventoryPosition: String = ""
+) : Parcelable

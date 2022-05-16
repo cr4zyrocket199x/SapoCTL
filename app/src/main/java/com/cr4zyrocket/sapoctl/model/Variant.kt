@@ -1,49 +1,54 @@
 package com.cr4zyrocket.sapoctl.model
 
-class Variant {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
-    var variantId: Long = 0
+@Parcelize
+class Variant(
 
-    lateinit var variantName: String
+    var variantId: Long = 0,
 
-    lateinit var variantSKU: String
+    var variantName: String = "",
 
-    lateinit var variantBarCode: String
+    var variantSKU: String = "",
 
-    lateinit var variantUnit: String
+    var variantBarCode: String = "",
 
-    var variantRetailPrice: Long = 0
+    var variantUnit: String = "",
 
-    var variantSellable: Boolean = false
+    var variantRetailPrice: Long = 0,
 
-    var variantTaxable: Boolean = false
+    var variantSellable: Boolean = false,
 
-    lateinit var variantWeightUnit: String
+    var variantTaxable: Boolean = false,
 
-    lateinit var productType: String
+    var variantWeightUnit: String = "",
 
-    lateinit var productOption1: String
+    var productType: String = "",
 
-    lateinit var productOption2: String
+    var productOption1: String = "",
 
-    lateinit var productOption3: String
+    var productOption2: String = "",
 
-    var productId: Long = 0
+    var productOption3: String = "",
 
-    var variantWeightValue: Double = 0.0
+    var productId: Long = 0,
 
-    lateinit var inventories: MutableList<Inventory>
+    var variantWeightValue: Double = 0.0,
 
-    var variantPackSizeQuantity: Long = 0
+    var inventories: @RawValue MutableList<Inventory> = mutableListOf(),
 
-    var variantPackSizeRootId: Long = 0
+    var variantPackSizeQuantity: Long = 0,
 
-    var variantPackSize: Boolean = false
+    var variantPackSizeRootId: Long = 0,
 
-    lateinit var variantImages: MutableList<Image>
+    var variantPackSize: Boolean = false,
 
-    lateinit var variantPrices: MutableList<Price>
+    var variantImages: @RawValue MutableList<Image> = mutableListOf(),
 
-    lateinit var variantCompositeItems: MutableList<CompositeItem>
+    var variantPrices: @RawValue MutableList<Price> = mutableListOf(),
 
-}
+    var variantCompositeItems: @RawValue MutableList<CompositeItem> = mutableListOf(),
+
+    ) : Parcelable

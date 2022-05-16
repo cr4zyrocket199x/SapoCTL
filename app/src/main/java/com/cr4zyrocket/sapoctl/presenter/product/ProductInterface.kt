@@ -14,6 +14,7 @@ interface ProductInterface {
         fun showVariantList(variantList: MutableList<Variant>)
 
         fun setMutableLiveData(meta: Meta)
+
     }
 
     interface Presenter {

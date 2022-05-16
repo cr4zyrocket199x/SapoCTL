@@ -72,8 +72,7 @@ class VariantForOneAdapter(
             )
             itemView.setOnClickListener {
                 val intent = Intent(context, VariantDetailActivity::class.java)
-                intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, variant.productId)
-                intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variant.variantId)
+                intent.putExtra(VariantDetailActivity.KEY_VARIANT, variant)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }

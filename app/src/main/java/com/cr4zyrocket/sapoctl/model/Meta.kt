@@ -1,9 +1,13 @@
 package com.cr4zyrocket.sapoctl.model
 
-class Meta {
-    var metaTotal: Long = 0
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-    var metaPage: Long = 0
+@Parcelize
+data class Meta(
+    var metaTotal: Long = 0,
+
+    var metaPage: Long = 0,
 
     var metaLimit: Long = 0
-}
+) : Parcelable

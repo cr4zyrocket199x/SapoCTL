@@ -30,14 +30,12 @@ import java.util.*
 class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewModel {
     companion object {
         private const val TAG = "VariantDetailActivity"
-        const val KEY_PRODUCT_ID = "productId"
-        const val KEY_VARIANT_ID = "variantId"
+        const val KEY_VARIANT = "variant"
     }
 
     private lateinit var binding: ActivityVariantDetailBinding
+    private lateinit var variant: Variant
     private var variantDetailPresenter = VariantDetailPresenter(this)
-    private var productId: Long = -1
-    private var variantId: Long = -1
     private var packSizeList = mutableListOf<Variant>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -146,10 +144,10 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
 
                     /*Load list pack_size for variant*/
                     for (i in 0 until product.variants.size) {
-                        if (product.variants[i].variantId == variantId) {
+                        if (product.variants[i].variantId == variant.variantId) {
                             for (j in 0 until product.variants.size) {
                                 if (product.variants[j].variantPackSize) {
-                                    if (product.variants[j].variantPackSizeRootId == variantId) {
+                                    if (product.variants[j].variantPackSizeRootId == variant.variantId) {
                                         packSizeList.add(product.variants[j])
                                     }
                                 }
@@ -171,7 +169,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                     if (product.variants.size > 1) {
                         for (i in 0 until product.variants.size) {
                             if (!product.variants[i].variantPackSize) {
-                                if (product.variants[i].variantId == variantId) {
+                                if (product.variants[i].variantId == variant.variantId) {
                                     if (product.productOption1!="_ _ _"){
                                         val variantOptionTableRow =
                                             LayoutInflater.from(applicationContext)
@@ -265,20 +263,18 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
 
     override fun moveToCompositeItemActivity() {
         val intent = Intent(applicationContext, CompositeItemActivity::class.java)
-        intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
-        intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
+        intent.putExtra(CompositeItemActivity.KEY_VARIANT, variant)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
 
     private fun getIntentExtra(){
-        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
-        variantId = intent.getLongExtra(KEY_VARIANT_ID, 0)
+        variant = intent.getParcelableExtra(KEY_VARIANT)!!
     }
 
     private fun initData(){
         GlobalScope.launch {
-            variantDetailPresenter.initData(productId, variantId)
+            variantDetailPresenter.initData(variant.productId, variant)
         }
         binding.ncvVariantDetail.visibility=View.INVISIBLE
     }

@@ -13,11 +13,9 @@ interface VariantDetailInterface {
     }
 
     interface Presenter {
-        suspend fun initData(productId: Long, variantId: Long)
+        suspend fun initData(productId: Long, variant: Variant)
 
         suspend fun getProduct(productId: Long): Product
-
-        suspend fun getVariant(productId: Long, variantId: Long): Variant
 
         fun showCompositeSubItemList()
     }

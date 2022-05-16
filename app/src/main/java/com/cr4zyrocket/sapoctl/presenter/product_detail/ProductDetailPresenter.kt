@@ -34,21 +34,9 @@ class ProductDetailPresenter(
     var txtProductWeight = MutableLiveData<String>()
 
 
-    override suspend fun initData(productId: Long) {
-        val product=getProduct(productId)
+    override suspend fun initData(product: Product) {
         productDetailInterfaceViewModel.showProductDetail(product)
         productDetailInterfaceViewModel.setMutableLiveData(product)
-    }
-
-    override suspend fun getProduct(productId: Long): Product {
-        var product = Product()
-        val responseData = API.apiServiceGetData.getProduct(productId)
-        if (responseData.isSuccessful) {
-            responseData.body()?.product?.let {
-                product = common.mapProductToProductData(it)
-            }
-        }
-        return product
     }
 
     override fun showCompositeSubItemList() {

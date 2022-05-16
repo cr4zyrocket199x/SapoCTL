@@ -59,8 +59,7 @@ class CompositeItemAdapter(
 
             itemView.setOnClickListener {
                 val intent = Intent(context, VariantDetailActivity::class.java)
-                intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, compositeItemList[position].compositeSubItemProductId)
-                intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, compositeItemList[position].compositeSubItemId)
+                intent.putExtra(VariantDetailActivity.KEY_VARIANT, compositeSubVariantItemList[position])
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }

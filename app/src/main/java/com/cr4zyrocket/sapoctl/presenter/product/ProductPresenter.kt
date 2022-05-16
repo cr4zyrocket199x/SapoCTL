@@ -62,4 +62,5 @@ class ProductPresenter(
         }
         return variantList
     }
+
 }

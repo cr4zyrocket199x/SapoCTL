@@ -9,7 +9,6 @@ class Common {
             val variantList = mutableListOf<Variant>()
             productID = productData.productID ?: 0
             productName = productData.productName ?: "_ _ _"
-            productName = productData.productName ?: "_ _ _"
             productStatus = productData.productStatus ?: "_ _ _"
             productBrandName = productData.productBrandName ?: "_ _ _"
             productCategoryName = productData.productCategoryName ?: "_ _ _"
@@ -39,7 +38,7 @@ class Common {
 
     fun mapVariantToVariantData(variantData: VariantData): Variant {
         return Variant().apply {
-            val variantCompositeItemList= mutableListOf<CompositeItem>()
+            val variantCompositeItemList = mutableListOf<CompositeItem>()
             variantId = variantData.variantId ?: 0
             variantName = variantData.variantName ?: "_ _ _"
             variantSKU = variantData.variantSKU ?: "_ _ _"

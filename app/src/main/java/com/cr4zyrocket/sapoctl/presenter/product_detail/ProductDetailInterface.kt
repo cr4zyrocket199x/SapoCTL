@@ -13,9 +13,8 @@ interface ProductDetailInterface {
 
     interface Presenter {
 
-        suspend fun initData(productId: Long)
+        suspend fun initData(product: Product)
 
-        suspend fun getProduct(productId: Long): Product
 
         fun showCompositeSubItemList()
     }

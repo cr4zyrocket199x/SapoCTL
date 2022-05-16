@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.databinding.ActivityProductDetailBinding
 import com.cr4zyrocket.sapoctl.model.Product
+import com.cr4zyrocket.sapoctl.model.Variant
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.VariantForOneAdapter
@@ -25,13 +26,12 @@ import java.text.NumberFormat
 class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewModel {
     companion object {
         private const val TAG = "ProductDetailActivity"
-        const val KEY_PRODUCT_ID = "productId"
+        const val KEY_PRODUCT = "product"
     }
 
     private lateinit var binding: ActivityProductDetailBinding
+    private lateinit var product:Product
     private var productDetailPresenter = ProductDetailPresenter(this)
-    private var productId: Long = -1
-    private var variantId: Long = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,8 +75,6 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
                 binding.trProductDetailCompositeBrandName.visibility = View.GONE
                 binding.trProductDetailCompositeTag.visibility = View.GONE
                 binding.crdProductDetailProductVariants.visibility = View.GONE
-
-                variantId=product.variants[0].variantId
 
                 when (product.variants[0].productType) {
                     "lots_date" -> {
@@ -201,19 +199,18 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
 
     override fun moveToCompositeItemActivity() {
         val intent = Intent(this, CompositeItemActivity::class.java)
-        intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
-        intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
+        intent.putExtra(CompositeItemActivity.KEY_VARIANT, product.variants[0])
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
 
     private fun getIntentExtra(){
-        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
+        product = intent.getParcelableExtra(KEY_PRODUCT)!!
     }
 
     private fun initData(){
         GlobalScope.launch {
-            productDetailPresenter.initData(productId)
+            productDetailPresenter.initData(product)
         }
         binding.ncvProductDetail.visibility = View.INVISIBLE
     }

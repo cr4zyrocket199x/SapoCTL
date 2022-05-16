@@ -1,30 +1,35 @@
 package com.cr4zyrocket.sapoctl.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 
-class Product {
-    var productID: Long = 0
 
-    lateinit var productName: String
+@Parcelize
+data class Product(
+    var productID: Long = 0,
 
-    lateinit var productStatus: String
+    var productName: String = "",
 
-    lateinit var productBrandName: String
+    var productStatus: String = "",
 
-    lateinit var productCategoryName: String
+    var productBrandName: String = "",
 
-    lateinit var productDescription: String
+    var productCategoryName: String = "",
 
-    lateinit var productTags: String
+    var productDescription: String = "",
 
-    lateinit var productType: String
+    var productTags: String = "",
 
-    lateinit var variants: MutableList<Variant>
+    var productType: String = "",
 
-    lateinit var productImages: MutableList<Image>
+    var variants: @RawValue MutableList<Variant> = mutableListOf(),
 
-    lateinit var productOption1: String
+    var productImages: @RawValue MutableList<Image> = mutableListOf(),
 
-    lateinit var productOption2: String
+    var productOption1: String = "",
 
-    lateinit var productOption3: String
-}
+    var productOption2: String = "",
+
+    var productOption3: String = ""
+) : Parcelable

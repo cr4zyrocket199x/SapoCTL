@@ -1,8 +1,12 @@
 package com.cr4zyrocket.sapoctl.model
 
-class Image {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-    lateinit var imageFullPath: String
+@Parcelize
+data class Image(
 
-    var imagePosition: Long=0
-}
+    var imageFullPath: String = "",
+
+    var imagePosition: Long = 0
+) : Parcelable

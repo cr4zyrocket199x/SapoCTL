@@ -1,9 +1,13 @@
 package com.cr4zyrocket.sapoctl.model
 
-class Price {
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-    lateinit var priceName: String
+@Parcelize
+data class Price(
+
+    var priceName: String = "",
 
 
     var priceValue: Long = 0
-}
+) : Parcelable

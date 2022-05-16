@@ -1,17 +1,21 @@
 package com.cr4zyrocket.sapoctl.model
 
-class CompositeItem {
-    var compositeSubItemId: Long = 0
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-    var compositeSubItemProductId: Long = 0
+@Parcelize
+data class CompositeItem(
+    var compositeSubItemId: Long = 0,
 
-    lateinit var compositeSubItemName: String
+    var compositeSubItemProductId: Long = 0,
 
-    lateinit var compositeSubItemSKU: String
+    var compositeSubItemName: String = "",
 
-    var compositeSubItemPrice: Long = 0
+    var compositeSubItemSKU: String = "",
 
-    var compositeSubItemQuantity: Long = 0
+    var compositeSubItemPrice: Long = 0,
 
-    lateinit var compositeSubItemType: String
-}
+    var compositeSubItemQuantity: Long = 0,
+
+    var compositeSubItemType: String = "",
+) : Parcelable

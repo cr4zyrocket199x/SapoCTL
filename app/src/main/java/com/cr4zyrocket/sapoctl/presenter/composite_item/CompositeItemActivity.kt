@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.databinding.ActivityCompositeItemBinding
+import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
 import com.cr4zyrocket.sapoctl.presenter.adapter.CompositeItemAdapter
 import kotlinx.coroutines.GlobalScope
@@ -21,13 +22,11 @@ import java.util.*
 class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewModel {
     companion object {
         private const val TAG = "CompositeItemActivity"
-        const val KEY_PRODUCT_ID = "productId"
-        const val KEY_VARIANT_ID = "variantId"
+        const val KEY_VARIANT = "variant"
     }
 
     private lateinit var binding: ActivityCompositeItemBinding
-    private var productId: Long = -1
-    private var variantId: Long = -1
+    private lateinit var variant: Variant
     private var compositeItemPresenter = CompositeItemPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,13 +84,12 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
     }
 
     private fun getIntentExtra(){
-        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
-        variantId = intent.getLongExtra(KEY_VARIANT_ID, 0)
+        variant = intent.getParcelableExtra(KEY_VARIANT)!!
     }
 
     private fun initData(){
         GlobalScope.launch {
-            compositeItemPresenter.initData(productId, variantId)
+            compositeItemPresenter.initData(variant)
         }
         binding.rlCompositeItem.visibility=View.INVISIBLE
     }

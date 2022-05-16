@@ -18,7 +18,7 @@ import java.text.NumberFormat
 import java.util.*
 
 class VariantAdapter(private val context: Context, private val variants: MutableList<Variant>) :
-    RecyclerView.Adapter<VariantAdapter.VariantViewHolder>(), Filterable {
+    RecyclerView.Adapter<VariantAdapter.VariantViewHolder>() {
     private var variantList = mutableListOf<Variant>()
 
     init {
@@ -40,32 +40,6 @@ class VariantAdapter(private val context: Context, private val variants: Mutable
         return variantList.size
     }
 
-    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(p0: CharSequence?): FilterResults {
-                val inputText = p0.toString().lowercase()
-                variantList = if (inputText.isEmpty()) {
-                    variants
-                } else {
-                    variants.filter { variant ->
-                        variant.variantName.lowercase().contains(inputText) ||
-                                variant.variantSKU.lowercase().contains(inputText) ||
-                                variant.variantBarCode.lowercase().contains(inputText)
-                    } as MutableList<Variant>
-                }
-                val filterResult = FilterResults()
-                filterResult.values = variantList
-                return filterResult
-            }
-
-            override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-                variantList = p1?.values as MutableList<Variant>
-                notifyDataSetChanged()
-            }
-
-        }
-    }
-
     override fun onBindViewHolder(holder: VariantAdapter.VariantViewHolder, position: Int) {
         val variant = variantList[position]
         holder.apply {
@@ -84,8 +58,7 @@ class VariantAdapter(private val context: Context, private val variants: Mutable
                 NumberFormat.getInstance().format(variant.inventories[0].inventoryAvailable).toString()
             itemView.setOnClickListener {
                 val intent = Intent(context, VariantDetailActivity::class.java)
-                intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, variant.productId)
-                intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variant.variantId)
+                intent.putExtra(VariantDetailActivity.KEY_VARIANT, variant)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 context.startActivity(intent)
             }
