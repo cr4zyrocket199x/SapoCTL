@@ -13,7 +13,6 @@ class CompositeItemPresenter(private val compositeItemInterfaceViewModel: Compos
 
     var txtCompositeSubItemsPrice = MutableLiveData<String>()
     var txtCompositeSubItemsCount = MutableLiveData<String>()
-    private var common = Common()
 
     override suspend fun initData(variant: Variant) {
         val compositeSubItemList = mutableListOf<Variant>()
@@ -35,7 +34,7 @@ class CompositeItemPresenter(private val compositeItemInterfaceViewModel: Compos
         val responseData = API.apiServiceGetData.getVariant(productId, variantId)
         if (responseData.isSuccessful) {
             responseData.body()?.variant?.let {
-                variant = common.mapVariantToVariantData(it)
+                variant = Common.mapVariantToVariantData(it)
             }
         }
         return variant

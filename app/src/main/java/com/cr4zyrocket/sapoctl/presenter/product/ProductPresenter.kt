@@ -17,7 +17,6 @@ class ProductPresenter(
 
     var txtProductTitle = MutableLiveData<String>()
     var txtProductCount = MutableLiveData<String>()
-    private var common = Common()
 
     override suspend fun initData(isProductResult: Boolean, currentPage: Long) {
         if (isProductResult) {
@@ -36,9 +35,9 @@ class ProductPresenter(
         val responseData = API.apiServiceGetData.getResponseProductList(currentPage, keySearch)
         if (responseData.isSuccessful) {
             responseData.body()?.productList?.forEach {
-                productList.add(common.mapProductToProductData(it))
+                productList.add(Common.mapProductToProductData(it))
             }
-            productInterfaceViewModel.setMutableLiveData(common.mapMetaToMetaData(responseData.body()!!.metaData!!))
+            productInterfaceViewModel.setMutableLiveData(Common.mapMetaToMetaData(responseData.body()!!.metaData!!))
         }
         return productList
     }
@@ -53,10 +52,10 @@ class ProductPresenter(
         if (responseData.isSuccessful) {
             responseData.body()?.let { it ->
                 it.variantList?.forEach { variantData ->
-                    variantList.add(common.mapVariantToVariantData(variantData))
+                    variantList.add(Common.mapVariantToVariantData(variantData))
                 }
                 it.metaData?.let {
-                    productInterfaceViewModel.setMutableLiveData(common.mapMetaToMetaData(it))
+                    productInterfaceViewModel.setMutableLiveData(Common.mapMetaToMetaData(it))
                 }
             }
         }

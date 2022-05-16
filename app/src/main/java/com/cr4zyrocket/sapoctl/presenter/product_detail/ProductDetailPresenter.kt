@@ -1,8 +1,6 @@
 package com.cr4zyrocket.sapoctl.presenter.product_detail
 
 import androidx.lifecycle.MutableLiveData
-import com.cr4zyrocket.sapoctl.api.API
-import com.cr4zyrocket.sapoctl.common.Common
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
 
@@ -13,8 +11,6 @@ class ProductDetailPresenter(
     companion object {
         private const val TAG = "ProductDetailPresenter"
     }
-
-    private var common = Common()
 
     var product = MutableLiveData<Product>()
     var variant = MutableLiveData<Variant>()

@@ -13,7 +13,6 @@ class VariantDetailPresenter(
         private const val TAG = "ProductDetailPresenter"
     }
 
-    private var common = Common()
     var product = MutableLiveData<Product>()
     var variant = MutableLiveData<Variant>()
     var txtVariantTaxable = MutableLiveData<String>()
@@ -39,7 +38,7 @@ class VariantDetailPresenter(
         val responseData = API.apiServiceGetData.getProduct(productId)
         if (responseData.isSuccessful) {
             responseData.body()?.product?.let {
-                product = common.mapProductToProductData(it)
+                product = Common.mapProductToProductData(it)
             }
         }
         return product
