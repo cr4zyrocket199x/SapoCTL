@@ -31,6 +31,7 @@ class ProductDetailPresenter(
     var txtInventoryPosition = MutableLiveData<String>()
     var txtProductType = MutableLiveData<String>()
     var txtProductStatus = MutableLiveData<String>()
+    var txtProductWeight = MutableLiveData<String>()
 
 
     override suspend fun initData(productId: Long) {

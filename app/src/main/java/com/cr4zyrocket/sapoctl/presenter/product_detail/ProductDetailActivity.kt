@@ -147,6 +147,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
             productDetailPresenter.txtToolbarTitle.value =
                 getString(R.string.txtTitleProductDetailActivity)
             if (product.variants.size == 1) {
+                productDetailPresenter.txtProductWeight.value = NumberFormat.getInstance().format(product.variants[0].variantWeightValue).toString()
                 productDetailPresenter.variant.value = product.variants[0]
                 productDetailPresenter.txtInventoryOnHand.value =
                     getString(R.string.variantDetailActivity1) + NumberFormat.getInstance().format(product.variants[0].inventories[0].inventoryOnHand)

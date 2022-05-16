@@ -76,6 +76,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             binding.llVariantDetailImageList.visibility = View.GONE
             binding.tvVariantDetailShowVariantTypeDetail.visibility = View.GONE
 
+            variantDetailPresenter.txtVariantWeight.value = NumberFormat.getInstance().format(variant.variantWeightValue).toString()
             if (variant.variantImages.isNotEmpty()) {
                 Glide.with(this).load(variant.variantImages[0].imageFullPath).into(binding.ivVariantDetailVariantImage)
             } else {

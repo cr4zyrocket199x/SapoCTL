@@ -26,6 +26,7 @@ class VariantDetailPresenter(
     var txtInventoryAvailable = MutableLiveData<String>()
     var txtInventoryPosition = MutableLiveData<String>()
     var txtProductType = MutableLiveData<String>()
+    var txtVariantWeight = MutableLiveData<String>()
 
     override suspend fun initData(productId: Long, variantId: Long) {
         val product = getProduct(productId)

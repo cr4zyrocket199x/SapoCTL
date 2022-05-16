@@ -153,6 +153,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
             }
 
             override fun onQueryTextChange(p0: String?): Boolean {
+                currentPage=1
                 if (p0 != null) {
                     keySearch = p0
                     if (isProductResult) {

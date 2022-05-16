@@ -16,7 +16,7 @@ import java.text.NumberFormat
 
 class ProductAdapter(
     private val context: Context,
-    private val product: MutableList<Product>
+    product: MutableList<Product>
 ) :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(){
 
