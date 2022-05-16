@@ -92,6 +92,9 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                     productPresenter.initData(isProductResult, currentPage)
                 }
                 binding.rclvProductList.visibility = View.INVISIBLE
+                binding.svProductSearch.setQuery("",false)
+                keySearch=""
+                binding.svProductSearch.clearFocus()
                 pref.edit().putBoolean(SHARED_PREF_IS_PRODUCT_RESULT, isProductResult).apply()
             }
         }

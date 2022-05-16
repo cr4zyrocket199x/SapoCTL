@@ -15,7 +15,7 @@ class CompositeItemPresenter (private val compositeItemInterfaceViewModel: Compo
     private var common = Common()
 
     override suspend fun initData(productId: Long,variantId: Long) {
-        val responseData = API.apiService.getVariant(productId,variantId)
+        val responseData = API.apiServiceGetData.getVariant(productId,variantId)
         if (responseData.isSuccessful){
             responseData.body()?.variant?.let {
                 val variant=common.mapVariantToVariantData(it)
@@ -32,7 +32,7 @@ class CompositeItemPresenter (private val compositeItemInterfaceViewModel: Compo
 
     override suspend fun getVariant(productId: Long, variantId: Long): Variant {
         var variant = Variant()
-        val responseData = API.apiService.getVariant(productId, variantId)
+        val responseData = API.apiServiceGetData.getVariant(productId, variantId)
         if (responseData.isSuccessful) {
             responseData.body()?.variant?.let {
                 variant = common.mapVariantToVariantData(it)

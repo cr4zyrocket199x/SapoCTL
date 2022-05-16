@@ -42,7 +42,7 @@ class ProductDetailPresenter(
 
     override suspend fun getProduct(productId: Long): Product {
         var product = Product()
-        val responseData = API.apiService.getProduct(productId)
+        val responseData = API.apiServiceGetData.getProduct(productId)
         if (responseData.isSuccessful) {
             responseData.body()?.product?.let {
                 product = common.mapProductToProductData(it)

@@ -37,7 +37,7 @@ class VariantDetailPresenter(
 
     override suspend fun getProduct(productId: Long): Product {
         var product = Product()
-        val responseData = API.apiService.getProduct(productId)
+        val responseData = API.apiServiceGetData.getProduct(productId)
         if (responseData.isSuccessful) {
             responseData.body()?.product?.let {
                 product = common.mapProductToProductData(it)
@@ -48,7 +48,7 @@ class VariantDetailPresenter(
 
     override suspend fun getVariant(productId: Long, variantId: Long): Variant {
         var variant = Variant()
-        val responseData = API.apiService.getVariant(productId, variantId)
+        val responseData = API.apiServiceGetData.getVariant(productId, variantId)
         if (responseData.isSuccessful) {
             responseData.body()?.variant?.let {
                 variant = common.mapVariantToVariantData(it)

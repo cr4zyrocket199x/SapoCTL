@@ -33,7 +33,7 @@ class ProductPresenter(
         keySearch: String
     ): MutableList<Product> {
         val productList = mutableListOf<Product>()
-        val responseData = API.apiService.getResponseProductList(currentPage, keySearch)
+        val responseData = API.apiServiceGetData.getResponseProductList(currentPage, keySearch)
         if (responseData.isSuccessful) {
             responseData.body()?.productList?.forEach {
                 productList.add(common.mapProductToProductData(it))
@@ -49,7 +49,7 @@ class ProductPresenter(
         keySearch: String
     ): MutableList<Variant> {
         val variantList = mutableListOf<Variant>()
-        val responseData = API.apiService.getResponseVariantList(currentPage, keySearch)
+        val responseData = API.apiServiceGetData.getResponseVariantList(currentPage, keySearch)
         if (responseData.isSuccessful) {
             responseData.body()?.let { it ->
                 it.variantList?.forEach { variantData ->

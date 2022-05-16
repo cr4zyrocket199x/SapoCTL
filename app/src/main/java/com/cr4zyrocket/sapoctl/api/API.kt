@@ -28,7 +28,10 @@ object API {
             .client(okHttpClient)
             .build()
     }
-    val apiService: APIService by lazy {
-        retrofit.create(APIService::class.java)
+    val apiServiceGetData: APIService.GetData by lazy {
+        retrofit.create(APIService.GetData::class.java)
+    }
+    val apiServicePostData: APIService.PostData by lazy {
+        retrofit.create(APIService.PostData::class.java)
     }
 }
