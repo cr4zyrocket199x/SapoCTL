@@ -5,7 +5,7 @@
 
         <variable
             name="proDP"
-            type="com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailPresenter" />
+            type="com.cr4zyrocket.sapoctl.presenter.productdetail.ProductDetailPresenter" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@color/gray_background"
         android:orientation="vertical"
-        tools:context=".presenter.product_detail.ProductDetailActivity">
+        tools:context=".presenter.productdetail.ProductDetailActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tbProductDetailToolbar"
@@ -68,7 +68,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-                        android:paddingTop="10dp" />
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </LinearLayout>
 
                 <androidx.cardview.widget.CardView
@@ -470,7 +472,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:nestedScrollingEnabled="false" />
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="2" />
 
                         <View
                             android:layout_width="match_parent"
@@ -681,7 +685,8 @@
                             android:id="@+id/rclvProductDetailProductVariantList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false" />
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

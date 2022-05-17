@@ -1,6 +1,8 @@
-package com.cr4zyrocket.sapoctl.presenter.product_detail
+package com.cr4zyrocket.sapoctl.presenter.productdetail
 
 import androidx.lifecycle.MutableLiveData
+import com.cr4zyrocket.sapoctl.api.API
+import com.cr4zyrocket.sapoctl.common.Common
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
 
@@ -30,12 +32,24 @@ class ProductDetailPresenter(
     var txtProductWeight = MutableLiveData<String>()
 
 
-    override suspend fun initData(product: Product) {
+    override suspend fun initData(productId: Long) {
+        val product = getProduct(productId)
         productDetailInterfaceViewModel.showProductDetail(product)
         productDetailInterfaceViewModel.setMutableLiveData(product)
     }
 
     override fun showCompositeSubItemList() {
         productDetailInterfaceViewModel.moveToCompositeItemActivity()
+    }
+
+    override suspend fun getProduct(productId: Long): Product {
+        var product = Product()
+        val responseData = API.apiServiceGetData.getProduct(productId)
+        if (responseData.isSuccessful) {
+            responseData.body()?.product?.let {
+                product = Common.mapProductToProductData(it)
+            }
+        }
+        return product
     }
 }

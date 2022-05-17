@@ -5,7 +5,7 @@
 
         <variable
             name="varDP"
-            type="com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailPresenter" />
+            type="com.cr4zyrocket.sapoctl.presenter.variantdetail.VariantDetailPresenter" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".presenter.variant_detail.VariantDetailActivity">
+        tools:context=".presenter.variantdetail.VariantDetailActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tbVariantDetailToolbar"
@@ -67,14 +67,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
+                        android:orientation="horizontal"
                         android:paddingTop="10dp"
-                        android:paddingBottom="10dp" />
+                        android:paddingBottom="10dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
                 </LinearLayout>
 
                 <ImageView
                     android:id="@+id/ivVariantDetailVariantImage"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="200dp"
                     android:padding="10dp"
                     android:scaleType="centerCrop" />
 
@@ -503,7 +505,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
-                            android:nestedScrollingEnabled="false" />
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:spanCount="2"/>
 
                         <View
                             android:layout_width="match_parent"
@@ -612,7 +616,8 @@
                             android:id="@+id/rclvVariantDetailPackSizeList"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:nestedScrollingEnabled="false" />
+                            android:nestedScrollingEnabled="false"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

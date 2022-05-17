@@ -1,7 +1,6 @@
-package com.cr4zyrocket.sapoctl.presenter.adapter
+package com.cr4zyrocket.sapoctl.presenter.variantdetail.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.model.Variant
-import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import java.text.NumberFormat
 import java.util.*
 
-class PackSizeAdapter(private val context: Context, private val packSizes: MutableList<Variant>) :
+class PackSizeAdapter(private val context: Context, packSizes: MutableList<Variant>) :
     RecyclerView.Adapter<PackSizeAdapter.PackSizeViewHolder>() {
     private var packSizeList = mutableListOf<Variant>()
+    var onItemCLickPackSize: ((Long, Long) -> Unit)? = null
 
     init {
         packSizeList = packSizes
@@ -36,13 +35,13 @@ class PackSizeAdapter(private val context: Context, private val packSizes: Mutab
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): PackSizeAdapter.PackSizeViewHolder {
+    ): PackSizeViewHolder {
         return PackSizeViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_variant, parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: PackSizeAdapter.PackSizeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PackSizeViewHolder, position: Int) {
         val packSize = packSizeList[position]
         holder.apply {
             if (packSize.variantImages.isEmpty()) {
@@ -65,10 +64,7 @@ class PackSizeAdapter(private val context: Context, private val packSizes: Mutab
                     .format(packSize.inventories[0].inventoryOnHand).toString()
             )
             itemView.setOnClickListener {
-                val intent = Intent(context, VariantDetailActivity::class.java)
-                intent.putExtra(VariantDetailActivity.KEY_VARIANT, packSize)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
+                onItemCLickPackSize?.invoke(packSize.productId, packSize.variantId)
             }
         }
     }

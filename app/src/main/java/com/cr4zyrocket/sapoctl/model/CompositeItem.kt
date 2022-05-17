@@ -3,7 +3,6 @@ package com.cr4zyrocket.sapoctl.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class CompositeItem(
     var compositeSubItemId: Long = 0,
 
@@ -18,4 +17,4 @@ data class CompositeItem(
     var compositeSubItemQuantity: Long = 0,
 
     var compositeSubItemType: String = "",
-) : Parcelable
+)

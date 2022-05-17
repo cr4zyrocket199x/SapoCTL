@@ -4,7 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 
-@Parcelize
 class Variant(
 
     var variantId: Long = 0,
@@ -37,7 +36,7 @@ class Variant(
 
     var variantWeightValue: Double = 0.0,
 
-    var inventories: @RawValue MutableList<Inventory> = mutableListOf(),
+    var inventories: MutableList<Inventory> = mutableListOf(),
 
     var variantPackSizeQuantity: Long = 0,
 
@@ -45,10 +44,10 @@ class Variant(
 
     var variantPackSize: Boolean = false,
 
-    var variantImages: @RawValue MutableList<Image> = mutableListOf(),
+    var variantImages: MutableList<Image> = mutableListOf(),
 
-    var variantPrices: @RawValue MutableList<Price> = mutableListOf(),
+    var variantPrices: MutableList<Price> = mutableListOf(),
 
-    var variantCompositeItems: @RawValue MutableList<CompositeItem> = mutableListOf(),
+    var variantCompositeItems: MutableList<CompositeItem> = mutableListOf(),
 
-    ) : Parcelable
+    )

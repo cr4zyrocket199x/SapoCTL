@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.presenter.composite_item
+package com.cr4zyrocket.sapoctl.presenter.compositeitem
 
 import androidx.lifecycle.MutableLiveData
 import com.cr4zyrocket.sapoctl.api.API
@@ -14,7 +14,8 @@ class CompositeItemPresenter(private val compositeItemInterfaceViewModel: Compos
     var txtCompositeSubItemsPrice = MutableLiveData<String>()
     var txtCompositeSubItemsCount = MutableLiveData<String>()
 
-    override suspend fun initData(variant: Variant) {
+    override suspend fun initData(productId: Long, variantId: Long) {
+        val variant = getVariant(productId, variantId)
         val compositeSubItemList = mutableListOf<Variant>()
         variant.variantCompositeItems.forEach { compositeSubItem ->
             compositeSubItemList.add(

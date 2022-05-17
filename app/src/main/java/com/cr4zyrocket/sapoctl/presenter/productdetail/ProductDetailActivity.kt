@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.presenter.product_detail
+package com.cr4zyrocket.sapoctl.presenter.productdetail
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,16 +9,14 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.databinding.ActivityProductDetailBinding
 import com.cr4zyrocket.sapoctl.model.Product
-import com.cr4zyrocket.sapoctl.model.Variant
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
-import com.cr4zyrocket.sapoctl.presenter.adapter.VariantForOneAdapter
-import com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity
+import com.cr4zyrocket.sapoctl.presenter.compositeitem.CompositeItemActivity
+import com.cr4zyrocket.sapoctl.presenter.productdetail.adapter.VariantForOneAdapter
+import com.cr4zyrocket.sapoctl.presenter.variantdetail.VariantDetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -26,11 +24,14 @@ import java.text.NumberFormat
 class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewModel {
     companion object {
         private const val TAG = "ProductDetailActivity"
-        const val KEY_PRODUCT = "product"
+        const val KEY_PRODUCT_ID = "productId"
     }
 
     private lateinit var binding: ActivityProductDetailBinding
-    private lateinit var product:Product
+    private lateinit var product: Product
+    private var productId: Long = -1
+    private var variantId: Long = -1
+    private lateinit var variantForOneAdapter: VariantForOneAdapter
     private var productDetailPresenter = ProductDetailPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,11 +62,10 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
         Handler(Looper.getMainLooper()).post {
             binding.llProductDetailCompositeDetail.visibility = View.GONE
             binding.rclvProductDetailProductImages.apply {
-                layoutManager =
-                    LinearLayoutManager(applicationContext, LinearLayoutManager.HORIZONTAL, false)
                 adapter = ProductImageAdapter(applicationContext, product.productImages)
             }
             if (product.variants.size == 1) {
+                variantId = product.variants[0].variantId
                 binding.llProductDetailProductStatus.visibility = View.VISIBLE
                 binding.crdProductDetailProductInventory.visibility = View.VISIBLE
                 binding.tlProductDetailProductInfo.visibility = View.VISIBLE
@@ -101,7 +101,6 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
                     }
                 }
                 binding.rclvProductDetailProductPriceList.apply {
-                    layoutManager = GridLayoutManager(applicationContext, 2)
                     adapter =
                         ProductPriceAdapter(
                             applicationContext,
@@ -114,16 +113,22 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
                 binding.llProductDetailProductStatus.visibility = View.GONE
                 binding.tlProductDetailProductInfo.visibility = View.GONE
                 binding.crdProductDetailProductInventory.visibility = View.GONE
-
+                variantForOneAdapter = VariantForOneAdapter(this,product.variants)
+                variantForOneAdapter.onItemClickVariantForOne = { productId, variantId ->
+                    val intent = Intent(this, VariantDetailActivity::class.java)
+                    intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, productId)
+                    intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variantId)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
                 binding.rclvProductDetailProductVariantList.apply {
-                    layoutManager = LinearLayoutManager(applicationContext)
                     addItemDecoration(
                         DividerItemDecoration(
                             applicationContext,
                             DividerItemDecoration.VERTICAL
                         )
                     )
-                    adapter = VariantForOneAdapter(applicationContext, product.variants)
+                    adapter = variantForOneAdapter
                 }
             }
         }
@@ -199,18 +204,19 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
 
     override fun moveToCompositeItemActivity() {
         val intent = Intent(this, CompositeItemActivity::class.java)
-        intent.putExtra(CompositeItemActivity.KEY_VARIANT, product.variants[0])
+        intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
+        intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
 
     private fun getIntentExtra(){
-        product = intent.getParcelableExtra(KEY_PRODUCT)!!
+        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0L)
     }
 
     private fun initData(){
         GlobalScope.launch {
-            productDetailPresenter.initData(product)
+            productDetailPresenter.initData(productId)
         }
         binding.ncvProductDetail.visibility = View.INVISIBLE
     }

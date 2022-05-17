@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.presenter.variant_detail
+package com.cr4zyrocket.sapoctl.presenter.variantdetail
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,17 +11,15 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.databinding.ActivityVariantDetailBinding
 import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
-import com.cr4zyrocket.sapoctl.presenter.adapter.PackSizeAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductImageAdapter
 import com.cr4zyrocket.sapoctl.presenter.adapter.ProductPriceAdapter
-import com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity
+import com.cr4zyrocket.sapoctl.presenter.compositeitem.CompositeItemActivity
+import com.cr4zyrocket.sapoctl.presenter.variantdetail.adapter.PackSizeAdapter
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -30,11 +28,14 @@ import java.util.*
 class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewModel {
     companion object {
         private const val TAG = "VariantDetailActivity"
-        const val KEY_VARIANT = "variant"
+        const val KEY_VARIANT_ID = "variantId"
+        const val KEY_PRODUCT_ID = "productId"
     }
 
     private lateinit var binding: ActivityVariantDetailBinding
-    private lateinit var variant: Variant
+    private var variantId: Long = -1
+    private var productId: Long = -1
+    private lateinit var packSizeAdapter: PackSizeAdapter
     private var variantDetailPresenter = VariantDetailPresenter(this)
     private var packSizeList = mutableListOf<Variant>()
 
@@ -90,7 +91,6 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                 binding.ivVariantDetailVariantImage.visibility = View.GONE
             }
             binding.rclvVariantDetailVariantPriceList.apply {
-                layoutManager = GridLayoutManager(applicationContext, 2)
                 adapter = ProductPriceAdapter(applicationContext, variant.variantPrices)
             }
             when (variant.productType) {
@@ -115,12 +115,6 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                     binding.crdVariantDetailVariantPackSize.visibility = View.GONE
 
                     binding.rclvVariantDetailVariantImageList.apply {
-                        layoutManager =
-                            LinearLayoutManager(
-                                applicationContext,
-                                LinearLayoutManager.HORIZONTAL,
-                                false
-                            )
                         adapter = ProductImageAdapter(applicationContext, product.productImages)
                     }
                 }
@@ -152,15 +146,22 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                                     }
                                 }
                             }
+                            packSizeAdapter= PackSizeAdapter(this, packSizeList)
+                            packSizeAdapter.onItemCLickPackSize = { productId, variantId ->
+                                val intent = Intent(this, VariantDetailActivity::class.java)
+                                intent.putExtra(KEY_PRODUCT_ID, productId)
+                                intent.putExtra(KEY_VARIANT_ID, variantId)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                            }
                             binding.rclvVariantDetailPackSizeList.apply {
-                                layoutManager = LinearLayoutManager(applicationContext)
                                 addItemDecoration(
                                     DividerItemDecoration(
                                         applicationContext,
                                         DividerItemDecoration.VERTICAL
                                     )
                                 )
-                                adapter = PackSizeAdapter(applicationContext, packSizeList)
+                                adapter = packSizeAdapter
                             }
                         }
                     }
@@ -263,18 +264,20 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
 
     override fun moveToCompositeItemActivity() {
         val intent = Intent(applicationContext, CompositeItemActivity::class.java)
-        intent.putExtra(CompositeItemActivity.KEY_VARIANT, variant)
+        intent.putExtra(CompositeItemActivity.KEY_PRODUCT_ID, productId)
+        intent.putExtra(CompositeItemActivity.KEY_VARIANT_ID, variantId)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
 
     private fun getIntentExtra(){
-        variant = intent.getParcelableExtra(KEY_VARIANT)!!
+        productId = intent.getLongExtra(KEY_PRODUCT_ID,0L)
+        variantId = intent.getLongExtra(KEY_VARIANT_ID,0L)
     }
 
     private fun initData(){
         GlobalScope.launch {
-            variantDetailPresenter.initData(variant.productId, variant)
+            variantDetailPresenter.initData(productId, variantId)
         }
         binding.ncvVariantDetail.visibility=View.INVISIBLE
     }

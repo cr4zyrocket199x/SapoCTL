@@ -1,25 +1,26 @@
-package com.cr4zyrocket.sapoctl.presenter.adapter
+package com.cr4zyrocket.sapoctl.presenter.product.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
+import com.cr4zyrocket.sapoctl.model.Image
 import com.cr4zyrocket.sapoctl.model.Product
-import com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailActivity
 import java.text.NumberFormat
 
 class ProductAdapter(
     private val context: Context,
     product: MutableList<Product>
 ) :
-    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>(){
+    RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
+    var onItemClickProduct: ((Long) -> Unit)? = null
     private var productList = mutableListOf<Product>()
 
     init {
@@ -63,17 +64,21 @@ class ProductAdapter(
             if (product.productImages.isNotEmpty()) {
                 for (i in 0 until product.productImages.size) {
                     if (product.productImages[i].imagePosition == 1L) {
-                        Glide.with(context).load(product.productImages[i].imageFullPath).into(ivSingleProductImage)
+                        Glide.with(context).load(product.productImages[i].imageFullPath)
+                            .into(ivSingleProductImage)
                     }
                 }
             } else {
                 ivSingleProductImage.setImageResource(R.drawable.ic_no_image)
             }
+
+//            val image = product.productImages.firstOrNull {
+//                it.imagePosition == 1L
+//            }
+//            Glide.with(context).load(image?.imageFullPath).into(ivSingleProductImage)
+//                .onLoadFailed(AppCompatResources.getDrawable(context, R.drawable.ic_no_image))
             itemView.setOnClickListener {
-                val intent = Intent(context, ProductDetailActivity::class.java)
-                intent.putExtra(ProductDetailActivity.KEY_PRODUCT, product)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
+                onItemClickProduct?.invoke(product.productID)
             }
         }
     }

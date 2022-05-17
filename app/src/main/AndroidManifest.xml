@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SapoCTL">
         <activity
-            android:name="com.cr4zyrocket.sapoctl.presenter.composite_item.CompositeItemActivity"
+            android:name="com.cr4zyrocket.sapoctl.presenter.compositeitem.CompositeItemActivity"
             android:exported="false" />
         <activity
-            android:name="com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity"
+            android:name="com.cr4zyrocket.sapoctl.presenter.variantdetail.VariantDetailActivity"
             android:exported="false" />
         <activity
-            android:name="com.cr4zyrocket.sapoctl.presenter.product_detail.ProductDetailActivity"
+            android:name="com.cr4zyrocket.sapoctl.presenter.productdetail.ProductDetailActivity"
             android:exported="false" />
         <activity
             android:name="com.cr4zyrocket.sapoctl.presenter.product.ProductActivity"

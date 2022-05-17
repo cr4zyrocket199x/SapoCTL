@@ -1,7 +1,6 @@
-package com.cr4zyrocket.sapoctl.presenter.adapter
+package com.cr4zyrocket.sapoctl.presenter.productdetail.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.model.Variant
-import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import java.text.NumberFormat
 import java.util.*
 
@@ -21,6 +19,7 @@ class VariantForOneAdapter(
 ) :
     RecyclerView.Adapter<VariantForOneAdapter.VariantViewHolder>() {
     private var variantList = mutableListOf<Variant>()
+    var onItemClickVariantForOne: ((Long, Long) -> Unit)? = null
 
     init {
         variantList = variants
@@ -71,10 +70,7 @@ class VariantForOneAdapter(
                     .format(variant.inventories[0].inventoryOnHand).toString()
             )
             itemView.setOnClickListener {
-                val intent = Intent(context, VariantDetailActivity::class.java)
-                intent.putExtra(VariantDetailActivity.KEY_VARIANT, variant)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
+                onItemClickVariantForOne?.invoke(variant.productId, variant.variantId)
             }
         }
     }

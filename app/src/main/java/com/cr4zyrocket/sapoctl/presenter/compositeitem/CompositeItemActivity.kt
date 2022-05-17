@@ -1,5 +1,6 @@
-package com.cr4zyrocket.sapoctl.presenter.composite_item
+package com.cr4zyrocket.sapoctl.presenter.compositeitem
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,12 +9,12 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.databinding.ActivityCompositeItemBinding
-import com.cr4zyrocket.sapoctl.model.Product
 import com.cr4zyrocket.sapoctl.model.Variant
-import com.cr4zyrocket.sapoctl.presenter.adapter.CompositeItemAdapter
+import com.cr4zyrocket.sapoctl.presenter.compositeitem.adapter.CompositeItemAdapter
+import com.cr4zyrocket.sapoctl.presenter.productdetail.ProductDetailActivity
+import com.cr4zyrocket.sapoctl.presenter.variantdetail.VariantDetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
@@ -22,11 +23,14 @@ import java.util.*
 class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewModel {
     companion object {
         private const val TAG = "CompositeItemActivity"
-        const val KEY_VARIANT = "variant"
+        const val KEY_VARIANT_ID = "variantId"
+        const val KEY_PRODUCT_ID = "productId"
     }
 
     private lateinit var binding: ActivityCompositeItemBinding
-    private lateinit var variant: Variant
+    private var productId: Long = -1
+    private var variantId: Long = -1
+    private lateinit var compositeItemAdapter: CompositeItemAdapter
     private var compositeItemPresenter = CompositeItemPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,17 +56,28 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
         return super.onOptionsItemSelected(item)
     }
 
-    override fun showCompositeSubItemList(variant: Variant, compositeSubItemList: MutableList<Variant>) {
+    override fun showCompositeSubItemList(
+        variant: Variant,
+        compositeSubItemList: MutableList<Variant>
+    ) {
         Handler(Looper.getMainLooper()).post {
+            compositeItemAdapter =
+                CompositeItemAdapter(this, variant.variantCompositeItems, compositeSubItemList)
+            compositeItemAdapter.onItemClickCompositeItem = { productId, variantId ->
+                val intent = Intent(applicationContext, VariantDetailActivity::class.java)
+                intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, productId)
+                intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variantId)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }
             binding.rclvCompositeItemList.apply {
-                layoutManager=LinearLayoutManager(applicationContext)
                 addItemDecoration(
                     DividerItemDecoration(
                         applicationContext,
                         DividerItemDecoration.VERTICAL
                     )
                 )
-                adapter=CompositeItemAdapter(applicationContext,variant.variantCompositeItems,compositeSubItemList)
+                adapter = compositeItemAdapter
             }
         }
     }
@@ -79,18 +94,19 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
                 NumberFormat.getInstance(Locale.US).format(totalPrice)
             binding.notifyChange()
             binding.comItemP = compositeItemPresenter
-            binding.rlCompositeItem.visibility=View.VISIBLE
+            binding.rlCompositeItem.visibility = View.VISIBLE
         }, 500)
     }
 
-    private fun getIntentExtra(){
-        variant = intent.getParcelableExtra(KEY_VARIANT)!!
+    private fun getIntentExtra() {
+        productId = intent.getLongExtra(KEY_PRODUCT_ID,0)
+        variantId = intent.getLongExtra(KEY_VARIANT_ID,0)
     }
 
-    private fun initData(){
+    private fun initData() {
         GlobalScope.launch {
-            compositeItemPresenter.initData(variant)
+            compositeItemPresenter.initData(productId, variantId)
         }
-        binding.rlCompositeItem.visibility=View.INVISIBLE
+        binding.rlCompositeItem.visibility = View.INVISIBLE
     }
 }

@@ -1,4 +1,4 @@
-package com.cr4zyrocket.sapoctl.presenter.composite_item
+package com.cr4zyrocket.sapoctl.presenter.compositeitem
 
 import com.cr4zyrocket.sapoctl.model.Variant
 
@@ -11,7 +11,7 @@ interface CompositeItemInterface {
     }
 
     interface Presenter {
-        suspend fun initData(variant: Variant)
+        suspend fun initData(productId: Long, variantId: Long)
 
         suspend fun getVariant(productId: Long, variantId: Long): Variant
     }

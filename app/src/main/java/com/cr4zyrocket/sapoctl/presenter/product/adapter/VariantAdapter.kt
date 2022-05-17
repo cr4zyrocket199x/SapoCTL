@@ -1,25 +1,22 @@
-package com.cr4zyrocket.sapoctl.presenter.adapter
+package com.cr4zyrocket.sapoctl.presenter.product.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.model.Variant
-import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import java.text.NumberFormat
 import java.util.*
 
 class VariantAdapter(private val context: Context, private val variants: MutableList<Variant>) :
     RecyclerView.Adapter<VariantAdapter.VariantViewHolder>() {
     private var variantList = mutableListOf<Variant>()
+    var onItemClickVariant: ((Long, Long) -> Unit)? = null
 
     init {
         variantList = variants
@@ -40,7 +37,7 @@ class VariantAdapter(private val context: Context, private val variants: Mutable
         return variantList.size
     }
 
-    override fun onBindViewHolder(holder: VariantAdapter.VariantViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: VariantViewHolder, position: Int) {
         val variant = variantList[position]
         holder.apply {
             if (variant.variantImages.isNotEmpty()) {
@@ -57,10 +54,7 @@ class VariantAdapter(private val context: Context, private val variants: Mutable
             tvSingleVariantAvailable.text =
                 NumberFormat.getInstance().format(variant.inventories[0].inventoryAvailable).toString()
             itemView.setOnClickListener {
-                val intent = Intent(context, VariantDetailActivity::class.java)
-                intent.putExtra(VariantDetailActivity.KEY_VARIANT, variant)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
+                onItemClickVariant?.invoke(variant.productId, variant.variantId)
             }
         }
     }
@@ -68,7 +62,7 @@ class VariantAdapter(private val context: Context, private val variants: Mutable
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): VariantAdapter.VariantViewHolder {
+    ): VariantViewHolder {
         return VariantViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_single_variant, parent, false)
         )

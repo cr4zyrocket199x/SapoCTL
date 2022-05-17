@@ -1,7 +1,6 @@
-package com.cr4zyrocket.sapoctl.presenter.adapter
+package com.cr4zyrocket.sapoctl.presenter.compositeitem.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.model.CompositeItem
 import com.cr4zyrocket.sapoctl.model.Variant
-import com.cr4zyrocket.sapoctl.presenter.variant_detail.VariantDetailActivity
 import java.text.NumberFormat
 import java.util.*
 
@@ -21,6 +19,7 @@ class CompositeItemAdapter(
 ) : RecyclerView.Adapter<CompositeItemAdapter.CompositeSubItemViewHolder>() {
     private var compositeItemList = mutableListOf<CompositeItem>()
     private var compositeSubVariantItemList = mutableListOf<Variant>()
+    var onItemClickCompositeItem: ((Long,Long) -> Unit)? = null
 
     init {
         compositeItemList = compositeItems
@@ -58,10 +57,7 @@ class CompositeItemAdapter(
             tvCompositeSubItemRetailPrice.text= NumberFormat.getInstance(Locale.US).format(compositeSubItem.compositeSubItemPrice).toString()
 
             itemView.setOnClickListener {
-                val intent = Intent(context, VariantDetailActivity::class.java)
-                intent.putExtra(VariantDetailActivity.KEY_VARIANT, compositeSubVariantItemList[position])
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
+                onItemClickCompositeItem?.invoke(compositeSubItem.compositeSubItemProductId,compositeSubItem.compositeSubItemId)
             }
         }
     }
