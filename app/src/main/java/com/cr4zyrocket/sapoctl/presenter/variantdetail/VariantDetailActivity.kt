@@ -78,9 +78,10 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             binding.tvVariantDetailShowVariantTypeDetail.visibility = View.GONE
 
 
-            Log.d(TAG,"weight unit: "+variantDetailPresenter.txtVariantWeight.value)
+            Log.d(TAG, "weight unit: " + variantDetailPresenter.txtVariantWeight.value)
             if (variant.variantImages.isNotEmpty()) {
-                Glide.with(this).load(variant.variantImages[0].imageFullPath).into(binding.ivVariantDetailVariantImage)
+                Glide.with(this).load(variant.variantImages[0].imageFullPath)
+                    .into(binding.ivVariantDetailVariantImage)
             } else {
                 binding.llVariantDetailImageList.visibility = View.VISIBLE
 
@@ -125,7 +126,8 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
 
                         binding.llVariantDetailImageList.visibility = View.GONE
 
-                        Glide.with(this).load(variant.variantImages[0].imageFullPath).into(binding.ivVariantDetailVariantImage)
+                        Glide.with(this).load(variant.variantImages[0].imageFullPath)
+                            .into(binding.ivVariantDetailVariantImage)
                     } else {
                         binding.llVariantDetailImageList.visibility = View.VISIBLE
 
@@ -140,7 +142,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                                     packSizeList.add(product.variants[j])
                                 }
                             }
-                            packSizeAdapter= PackSizeAdapter(this, packSizeList)
+                            packSizeAdapter = PackSizeAdapter(this, packSizeList)
                             packSizeAdapter.onItemCLickPackSize = { productId, variantId ->
                                 val intent = Intent(this, VariantDetailActivity::class.java)
                                 intent.putExtra(KEY_PRODUCT_ID, productId)
@@ -164,7 +166,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                     if (product.variants.size > 1) {
                         for (i in 0 until product.variants.size) {
                             if (!product.variants[i].variantPackSize && product.variants[i].variantId == variant.variantId) {
-                                if (product.productOption1!="_ _ _"){
+                                if (product.productOption1 != "_ _ _") {
                                     val variantOptionTableRow =
                                         LayoutInflater.from(applicationContext)
                                             .inflate(R.layout.item_variant_option, null)
@@ -174,7 +176,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                                         product.variants[i].productOption1
                                     binding.tlVariantDetailVariantInfo.addView(variantOptionTableRow)
                                 }
-                                if (product.productOption2!="_ _ _"){
+                                if (product.productOption2 != "_ _ _") {
                                     val variantOptionTableRow =
                                         LayoutInflater.from(applicationContext)
                                             .inflate(R.layout.item_variant_option, null)
@@ -184,7 +186,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                                         product.variants[i].productOption2
                                     binding.tlVariantDetailVariantInfo.addView(variantOptionTableRow)
                                 }
-                                if (product.productOption3!="_ _ _"){
+                                if (product.productOption3 != "_ _ _") {
                                     val variantOptionTableRow =
                                         LayoutInflater.from(applicationContext)
                                             .inflate(R.layout.item_variant_option, null)
@@ -199,29 +201,35 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                     }
                 }
             }
-            binding.ncvVariantDetail.visibility=View.VISIBLE
-        },500)
+            binding.ncvVariantDetail.visibility = View.VISIBLE
+            binding.pbVariantDetail.visibility = View.INVISIBLE
+        }, 500)
     }
 
     override fun setMutableLiveData(product: Product, variant: Variant) {
-        Handler(Looper.getMainLooper()).post{
-            if(variant.variantWeightUnit==""||variant.variantWeightUnit=="g") {
+        Handler(Looper.getMainLooper()).post {
+            if (variant.variantWeightUnit == "" || variant.variantWeightUnit == "g") {
                 variantDetailPresenter.txtVariantWeight.value =
-                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue).toString() + "g"
-            }else{
+                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue)
+                        .toString() + "g"
+            } else {
                 variantDetailPresenter.txtVariantWeight.value =
-                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue*1000).toString() + "g"
+                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue * 1000)
+                        .toString() + "g"
             }
             variantDetailPresenter.product.value = product
             variantDetailPresenter.variant.value = variant
             variantDetailPresenter.txtInventoryOnHand.value =
-                getString(R.string.variantDetailActivity1) + NumberFormat.getInstance().format(variant.inventories[0].inventoryOnHand)
+                getString(R.string.variantDetailActivity1) + NumberFormat.getInstance()
+                    .format(variant.inventories[0].inventoryOnHand)
             variantDetailPresenter.txtInventoryAvailable.value =
-                getString(R.string.variantDetailActivity2) + NumberFormat.getInstance().format(variant.inventories[0].inventoryAvailable)
+                getString(R.string.variantDetailActivity2) + NumberFormat.getInstance()
+                    .format(variant.inventories[0].inventoryAvailable)
             variantDetailPresenter.txtInventoryPosition.value =
                 variant.inventories[0].inventoryPosition
-            variantDetailPresenter.txtBtnDeleteTitle.value =getString(R.string.btnDeleteVariant)
-            variantDetailPresenter.txtToolbarTitle.value =getString(R.string.txtTitleVariantDetailActivity)
+            variantDetailPresenter.txtBtnDeleteTitle.value = getString(R.string.btnDeleteVariant)
+            variantDetailPresenter.txtToolbarTitle.value =
+                getString(R.string.txtTitleVariantDetailActivity)
             variantDetailPresenter.txtVariantSellable.value =
                 if (variant.variantSellable) {
                     getString(R.string.productDetailActivity3)
@@ -234,23 +242,28 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                 } else {
                     getString(R.string.variantDetailActivity6)
                 }
-            when(variant.productType){
+            when (variant.productType) {
                 "lots_date" -> {
                     variantDetailPresenter.txtProductType.value =
                         getString(R.string.productDetailActivity8)
-                    variantDetailPresenter.txtShowProductTypeDetail.value=getString(R.string.productDetailActivity9)
+                    variantDetailPresenter.txtShowProductTypeDetail.value =
+                        getString(R.string.productDetailActivity9)
                 }
                 "serial" -> {
                     variantDetailPresenter.txtProductType.value =
                         getString(R.string.productDetailActivity10)
-                    variantDetailPresenter.txtShowProductTypeDetail.value=getString(R.string.productDetailActivity11)
+                    variantDetailPresenter.txtShowProductTypeDetail.value =
+                        getString(R.string.productDetailActivity11)
                 }
                 "composite" -> {
-                    variantDetailPresenter.txtBtnDeleteTitle.value =getString(R.string.productDetailActivity12)
-                    variantDetailPresenter.txtToolbarTitle.value =getString(R.string.productDetailActivityTitle)
-                    variantDetailPresenter.txtCompositeItemCount.value = getString(R.string.productDetailActivity13) + variant.variantCompositeItems.size.toString() + getString(
-                        R.string.productDetailActivity14
-                    )
+                    variantDetailPresenter.txtBtnDeleteTitle.value =
+                        getString(R.string.productDetailActivity12)
+                    variantDetailPresenter.txtToolbarTitle.value =
+                        getString(R.string.productDetailActivityTitle)
+                    variantDetailPresenter.txtCompositeItemCount.value =
+                        getString(R.string.productDetailActivity13) + variant.variantCompositeItems.size.toString() + getString(
+                            R.string.productDetailActivity14
+                        )
                 }
                 "normal" -> {
 
@@ -269,15 +282,16 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
         startActivity(intent)
     }
 
-    private fun getIntentExtra(){
-        productId = intent.getLongExtra(KEY_PRODUCT_ID,0L)
-        variantId = intent.getLongExtra(KEY_VARIANT_ID,0L)
+    private fun getIntentExtra() {
+        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0L)
+        variantId = intent.getLongExtra(KEY_VARIANT_ID, 0L)
     }
 
-    private fun initData(){
+    private fun initData() {
+        binding.pbVariantDetail.visibility = View.VISIBLE
+        binding.ncvVariantDetail.visibility = View.INVISIBLE
         GlobalScope.launch {
             variantDetailPresenter.initData(productId, variantId)
         }
-        binding.ncvVariantDetail.visibility=View.INVISIBLE
     }
 }

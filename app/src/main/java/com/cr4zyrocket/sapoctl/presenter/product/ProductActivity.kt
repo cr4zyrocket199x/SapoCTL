@@ -84,6 +84,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                 finish()
             }
             R.id.menuAppBarProductChangeResult -> {
+                binding.pbProduct.visibility = View.VISIBLE
                 if (isProductResult) {
                     item.setIcon(R.drawable.ic_product)
                 } else {
@@ -143,6 +144,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
 
             override fun onQueryTextChange(p0: String?): Boolean {
                 currentPage = 1
+                binding.pbProduct.visibility = View.VISIBLE
                 keySearch = p0 ?: ""
                 if (isProductResult) {
                     initProductAdapter()
@@ -170,7 +172,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
         binding.rclvProductList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val total= binding.rclvProductList.adapter?.itemCount ?: 0
+                val total = binding.rclvProductList.adapter?.itemCount ?: 0
                 if (!isLoadMore && currentPage < totalPage && total > 0 && (binding.rclvProductList.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == (total - 1)) {
                     currentPage++
                     if (isProductResult) {
@@ -247,6 +249,8 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                 }
                 binding.rclvProductList.adapter = adapterProduct
                 binding.rclvProductList.visibility = View.VISIBLE
+                binding.pbProduct.visibility = View.VISIBLE
+                binding.pbProduct.visibility = View.INVISIBLE
             }, 500)
         }
     }
@@ -266,6 +270,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                 }
                 binding.rclvProductList.adapter = adapterVariant
                 binding.rclvProductList.visibility = View.VISIBLE
+                binding.pbProduct.visibility = View.INVISIBLE
             }, 500)
         }
     }

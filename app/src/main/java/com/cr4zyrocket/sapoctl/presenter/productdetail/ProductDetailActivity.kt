@@ -132,6 +132,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
                 }
             }
             binding.ncvProductDetail.visibility = View.VISIBLE
+            binding.pbProductDetail.visibility = View.INVISIBLE
         }, 500)
     }
 
@@ -225,9 +226,11 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
     }
 
     private fun initData() {
+        binding.pbProductDetail.visibility = View.VISIBLE
+        binding.ncvProductDetail.visibility = View.INVISIBLE
+
         GlobalScope.launch {
             productDetailPresenter.initData(productId)
         }
-        binding.ncvProductDetail.visibility = View.INVISIBLE
     }
 }

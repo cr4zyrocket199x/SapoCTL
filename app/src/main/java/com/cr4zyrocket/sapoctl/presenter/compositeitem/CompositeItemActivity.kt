@@ -68,7 +68,7 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
-        Handler(Looper.getMainLooper()).post {
+        Handler(Looper.getMainLooper()).postDelayed({
             binding.rclvCompositeItemList.apply {
                 addItemDecoration(
                     DividerItemDecoration(
@@ -78,7 +78,7 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
                 )
                 adapter = compositeItemAdapter
             }
-        }
+        },500)
     }
 
     override fun setMutableLiveData(variant: Variant) {
@@ -86,7 +86,7 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
         variant.variantCompositeItems.forEach {
             totalPrice += it.compositeSubItemPrice
         }
-        Handler(Looper.getMainLooper()).postDelayed({
+        Handler(Looper.getMainLooper()).post{
             compositeItemPresenter.txtCompositeSubItemsCount.value =
                 getString(R.string.total) + variant.variantCompositeItems.size.toString()
             compositeItemPresenter.txtCompositeSubItemsPrice.value =
@@ -94,18 +94,20 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
             binding.comItemP = compositeItemPresenter
             binding.notifyChange()
             binding.rlCompositeItem.visibility = View.VISIBLE
-        }, 500)
+            binding.pbCompositeItem.visibility = View.INVISIBLE
+        }
     }
 
     private fun getIntentExtra() {
-        productId = intent.getLongExtra(KEY_PRODUCT_ID,0)
-        variantId = intent.getLongExtra(KEY_VARIANT_ID,0)
+        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
+        variantId = intent.getLongExtra(KEY_VARIANT_ID, 0)
     }
 
     private fun initData() {
+        binding.pbCompositeItem.visibility = View.VISIBLE
+        binding.rlCompositeItem.visibility = View.INVISIBLE
         GlobalScope.launch {
             compositeItemPresenter.initData(productId, variantId)
         }
-        binding.rlCompositeItem.visibility = View.INVISIBLE
     }
 }
