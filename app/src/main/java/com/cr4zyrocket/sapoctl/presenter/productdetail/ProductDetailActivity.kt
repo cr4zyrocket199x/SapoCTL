@@ -20,6 +20,7 @@ import com.cr4zyrocket.sapoctl.presenter.variantdetail.VariantDetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.NumberFormat
+import java.util.*
 
 class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewModel {
     companion object {
@@ -28,7 +29,6 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
     }
 
     private lateinit var binding: ActivityProductDetailBinding
-    private lateinit var product: Product
     private var productId: Long = -1
     private var variantId: Long = -1
     private lateinit var variantForOneAdapter: VariantForOneAdapter
@@ -59,7 +59,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
     }
 
     override fun showProductDetail(product: Product) {
-        Handler(Looper.getMainLooper()).post {
+        Handler(Looper.getMainLooper()).postDelayed({
             binding.llProductDetailCompositeDetail.visibility = View.GONE
             binding.rclvProductDetailProductImages.apply {
                 adapter = ProductImageAdapter(applicationContext, product.productImages)
@@ -113,7 +113,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
                 binding.llProductDetailProductStatus.visibility = View.GONE
                 binding.tlProductDetailProductInfo.visibility = View.GONE
                 binding.crdProductDetailProductInventory.visibility = View.GONE
-                variantForOneAdapter = VariantForOneAdapter(this,product.variants)
+                variantForOneAdapter = VariantForOneAdapter(this, product.variants)
                 variantForOneAdapter.onItemClickVariantForOne = { productId, variantId ->
                     val intent = Intent(this, VariantDetailActivity::class.java)
                     intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, productId)
@@ -131,11 +131,12 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
                     adapter = variantForOneAdapter
                 }
             }
-        }
+            binding.ncvProductDetail.visibility = View.VISIBLE
+        }, 500)
     }
 
     override fun setMutableLiveData(product: Product) {
-        Handler(Looper.getMainLooper()).postDelayed({
+        Handler(Looper.getMainLooper()).post {
             productDetailPresenter.product.value = product
             productDetailPresenter.variantList.value = product.variants
             productDetailPresenter.isActive.value =
@@ -150,12 +151,22 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
             productDetailPresenter.txtToolbarTitle.value =
                 getString(R.string.txtTitleProductDetailActivity)
             if (product.variants.size == 1) {
-                productDetailPresenter.txtProductWeight.value = NumberFormat.getInstance().format(product.variants[0].variantWeightValue).toString()
+                if (product.variants[0].variantWeightUnit == "" || product.variants[0].variantWeightUnit == "g") {
+                    productDetailPresenter.txtProductWeight.value =
+                        NumberFormat.getInstance(Locale.US)
+                            .format(product.variants[0].variantWeightValue).toString() + "g"
+                } else {
+                    productDetailPresenter.txtProductWeight.value =
+                        NumberFormat.getInstance(Locale.US)
+                            .format(product.variants[0].variantWeightValue * 1000).toString() + "g"
+                }
                 productDetailPresenter.variant.value = product.variants[0]
                 productDetailPresenter.txtInventoryOnHand.value =
-                    getString(R.string.variantDetailActivity1) + NumberFormat.getInstance().format(product.variants[0].inventories[0].inventoryOnHand)
+                    getString(R.string.variantDetailActivity1) + NumberFormat.getInstance()
+                        .format(product.variants[0].inventories[0].inventoryOnHand)
                 productDetailPresenter.txtInventoryAvailable.value =
-                    getString(R.string.variantDetailActivity2) + NumberFormat.getInstance().format(product.variants[0].inventories[0].inventoryAvailable)
+                    getString(R.string.variantDetailActivity2) + NumberFormat.getInstance()
+                        .format(product.variants[0].inventories[0].inventoryAvailable)
                 productDetailPresenter.txtInventoryPosition.value =
                     product.variants[0].inventories[0].inventoryPosition
                 productDetailPresenter.txtVariantSellable.value =
@@ -198,8 +209,7 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
             }
             binding.proDP = productDetailPresenter
             binding.notifyChange()
-            binding.ncvProductDetail.visibility = View.VISIBLE
-        }, 500)
+        }
     }
 
     override fun moveToCompositeItemActivity() {
@@ -210,11 +220,11 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
         startActivity(intent)
     }
 
-    private fun getIntentExtra(){
-        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0L)
+    private fun getIntentExtra() {
+        productId = intent.getLongExtra(KEY_PRODUCT_ID, 0)
     }
 
-    private fun initData(){
+    private fun initData() {
         GlobalScope.launch {
             productDetailPresenter.initData(productId)
         }

@@ -70,7 +70,7 @@
                         android:orientation="horizontal"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </LinearLayout>
 
                 <ImageView
@@ -507,7 +507,7 @@
                             android:layout_marginEnd="10dp"
                             android:nestedScrollingEnabled="false"
                             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                            app:spanCount="2"/>
+                            app:spanCount="2" />
 
                         <View
                             android:layout_width="match_parent"

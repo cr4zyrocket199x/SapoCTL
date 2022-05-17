@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.cr4zyrocket.sapoctl.R
-import com.cr4zyrocket.sapoctl.model.Image
 import com.cr4zyrocket.sapoctl.model.Product
 import java.text.NumberFormat
 
@@ -62,21 +60,13 @@ class ProductAdapter(
             tvSingleProductVariantCount.text = product.variants.size.toString()
             tvSingleProductAvailable.text = NumberFormat.getInstance().format(allAvailable)
             if (product.productImages.isNotEmpty()) {
-                for (i in 0 until product.productImages.size) {
-                    if (product.productImages[i].imagePosition == 1L) {
-                        Glide.with(context).load(product.productImages[i].imageFullPath)
-                            .into(ivSingleProductImage)
-                    }
+                val image = product.productImages.firstOrNull {
+                    it.imagePosition == 1L
                 }
+                Glide.with(context).load(image?.imageFullPath).into(ivSingleProductImage)
             } else {
                 ivSingleProductImage.setImageResource(R.drawable.ic_no_image)
             }
-
-//            val image = product.productImages.firstOrNull {
-//                it.imagePosition == 1L
-//            }
-//            Glide.with(context).load(image?.imageFullPath).into(ivSingleProductImage)
-//                .onLoadFailed(AppCompatResources.getDrawable(context, R.drawable.ic_no_image))
             itemView.setOnClickListener {
                 onItemClickProduct?.invoke(product.productID)
             }

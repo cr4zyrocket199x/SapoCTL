@@ -44,12 +44,12 @@ class VariantForOneAdapter(
     override fun onBindViewHolder(holder: VariantViewHolder, position: Int) {
         val variant = variantList[position]
         holder.apply {
-            if (variant.variantImages.isEmpty()) {
+            if (variant.variantImages.isNotEmpty()) {
+                Glide.with(context).load(variant.variantImages[0].imageFullPath)
+                    .into(ivVariantImage)
+            }else{
                 ivVariantImage.setImageResource(R.drawable.ic_no_image)
-            } else {
-                Glide.with(context).load(variant.variantImages[0].imageFullPath).into(ivVariantImage)
             }
-
             if (variant.variantPackSize) {
                 tvVariantName.text = context.getString(R.string.variantForOneAdapter4)
                 ivArrowDownRight.visibility = View.VISIBLE

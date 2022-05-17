@@ -1,9 +1,5 @@
 package com.cr4zyrocket.sapoctl.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-import kotlinx.parcelize.RawValue
-
 
 data class Product(
     var productID: Long = 0,

@@ -40,9 +40,9 @@ class VariantAdapter(private val context: Context, private val variants: Mutable
     override fun onBindViewHolder(holder: VariantViewHolder, position: Int) {
         val variant = variantList[position]
         holder.apply {
-            if (variant.variantImages.isNotEmpty()) {
+            if (variant.variantImages.isNotEmpty()){
                 Glide.with(context).load(variant.variantImages[0].imageFullPath).into(ivSingleVariantImage)
-            } else {
+            }else{
                 ivSingleVariantImage.setImageResource(R.drawable.ic_no_image)
             }
             tvSingleVariantName.text = variant.variantName

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -63,7 +64,7 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
     }
 
     override fun showVariantDetail(product: Product, variant: Variant) {
-        Handler(Looper.getMainLooper()).post {
+        Handler(Looper.getMainLooper()).postDelayed({
             binding.ivVariantDetailVariantImage.visibility = View.VISIBLE
             binding.crdVariantDetailVariantPackSize.visibility = View.VISIBLE
 
@@ -76,13 +77,8 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
             binding.llVariantDetailImageList.visibility = View.GONE
             binding.tvVariantDetailShowVariantTypeDetail.visibility = View.GONE
 
-            if(variant.variantWeightUnit==""||variant.variantWeightUnit=="g") {
-                variantDetailPresenter.txtVariantWeight.value =
-                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue).toString() + "g"
-            }else{
-                variantDetailPresenter.txtVariantWeight.value =
-                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue*1000).toString() + "g"
-            }
+
+            Log.d(TAG,"weight unit: "+variantDetailPresenter.txtVariantWeight.value)
             if (variant.variantImages.isNotEmpty()) {
                 Glide.with(this).load(variant.variantImages[0].imageFullPath).into(binding.ivVariantDetailVariantImage)
             } else {
@@ -140,10 +136,8 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                     for (i in 0 until product.variants.size) {
                         if (product.variants[i].variantId == variant.variantId) {
                             for (j in 0 until product.variants.size) {
-                                if (product.variants[j].variantPackSize) {
-                                    if (product.variants[j].variantPackSizeRootId == variant.variantId) {
-                                        packSizeList.add(product.variants[j])
-                                    }
+                                if (product.variants[j].variantPackSize && product.variants[j].variantPackSizeRootId == variant.variantId) {
+                                    packSizeList.add(product.variants[j])
                                 }
                             }
                             packSizeAdapter= PackSizeAdapter(this, packSizeList)
@@ -169,49 +163,55 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
                     /*Add option for variant*/
                     if (product.variants.size > 1) {
                         for (i in 0 until product.variants.size) {
-                            if (!product.variants[i].variantPackSize) {
-                                if (product.variants[i].variantId == variant.variantId) {
-                                    if (product.productOption1!="_ _ _"){
-                                        val variantOptionTableRow =
-                                            LayoutInflater.from(applicationContext)
-                                                .inflate(R.layout.item_variant_option, null)
-                                        variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOption).text =
-                                            product.productOption1
-                                        variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOptionValue).text =
-                                            product.variants[i].productOption1
-                                        binding.tlVariantDetailVariantInfo.addView(variantOptionTableRow)
-                                    }
-                                    if (product.productOption2!="_ _ _"){
-                                        val variantOptionTableRow =
-                                            LayoutInflater.from(applicationContext)
-                                                .inflate(R.layout.item_variant_option, null)
-                                        variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOption).text =
-                                            product.productOption2
-                                        variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOptionValue).text =
-                                            product.variants[i].productOption2
-                                        binding.tlVariantDetailVariantInfo.addView(variantOptionTableRow)
-                                    }
-                                    if (product.productOption3!="_ _ _"){
-                                        val variantOptionTableRow =
-                                            LayoutInflater.from(applicationContext)
-                                                .inflate(R.layout.item_variant_option, null)
-                                        variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOption).text =
-                                            product.productOption3
-                                        variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOptionValue).text =
-                                            product.variants[i].productOption3
-                                        binding.tlVariantDetailVariantInfo.addView(variantOptionTableRow)
-                                    }
+                            if (!product.variants[i].variantPackSize && product.variants[i].variantId == variant.variantId) {
+                                if (product.productOption1!="_ _ _"){
+                                    val variantOptionTableRow =
+                                        LayoutInflater.from(applicationContext)
+                                            .inflate(R.layout.item_variant_option, null)
+                                    variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOption).text =
+                                        product.productOption1
+                                    variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOptionValue).text =
+                                        product.variants[i].productOption1
+                                    binding.tlVariantDetailVariantInfo.addView(variantOptionTableRow)
+                                }
+                                if (product.productOption2!="_ _ _"){
+                                    val variantOptionTableRow =
+                                        LayoutInflater.from(applicationContext)
+                                            .inflate(R.layout.item_variant_option, null)
+                                    variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOption).text =
+                                        product.productOption2
+                                    variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOptionValue).text =
+                                        product.variants[i].productOption2
+                                    binding.tlVariantDetailVariantInfo.addView(variantOptionTableRow)
+                                }
+                                if (product.productOption3!="_ _ _"){
+                                    val variantOptionTableRow =
+                                        LayoutInflater.from(applicationContext)
+                                            .inflate(R.layout.item_variant_option, null)
+                                    variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOption).text =
+                                        product.productOption3
+                                    variantOptionTableRow.findViewById<TextView>(R.id.tvVariantOptionValue).text =
+                                        product.variants[i].productOption3
+                                    binding.tlVariantDetailVariantInfo.addView(variantOptionTableRow)
                                 }
                             }
                         }
                     }
                 }
             }
-        }
+            binding.ncvVariantDetail.visibility=View.VISIBLE
+        },500)
     }
 
     override fun setMutableLiveData(product: Product, variant: Variant) {
-        Handler(Looper.getMainLooper()).postDelayed({
+        Handler(Looper.getMainLooper()).post{
+            if(variant.variantWeightUnit==""||variant.variantWeightUnit=="g") {
+                variantDetailPresenter.txtVariantWeight.value =
+                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue).toString() + "g"
+            }else{
+                variantDetailPresenter.txtVariantWeight.value =
+                    NumberFormat.getInstance(Locale.US).format(variant.variantWeightValue*1000).toString() + "g"
+            }
             variantDetailPresenter.product.value = product
             variantDetailPresenter.variant.value = variant
             variantDetailPresenter.txtInventoryOnHand.value =
@@ -256,10 +256,9 @@ class VariantDetailActivity : AppCompatActivity(), VariantDetailInterface.ViewMo
 
                 }
             }
-            binding.notifyChange()
             binding.varDP = variantDetailPresenter
-            binding.ncvVariantDetail.visibility=View.VISIBLE
-        },500)
+            binding.notifyChange()
+        }
     }
 
     override fun moveToCompositeItemActivity() {

@@ -15,11 +15,13 @@ import java.text.NumberFormat
 import java.util.*
 
 class CompositeItemAdapter(
-    private val context: Context, private val compositeItems: MutableList<CompositeItem>, private val compositeSubVariantItems: MutableList<Variant>
+    private val context: Context,
+    private val compositeItems: MutableList<CompositeItem>,
+    private val compositeSubVariantItems: MutableList<Variant>
 ) : RecyclerView.Adapter<CompositeItemAdapter.CompositeSubItemViewHolder>() {
     private var compositeItemList = mutableListOf<CompositeItem>()
     private var compositeSubVariantItemList = mutableListOf<Variant>()
-    var onItemClickCompositeItem: ((Long,Long) -> Unit)? = null
+    var onItemClickCompositeItem: ((Long, Long) -> Unit)? = null
 
     init {
         compositeItemList = compositeItems
@@ -39,25 +41,32 @@ class CompositeItemAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompositeSubItemViewHolder {
-        return CompositeSubItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_composite_sub_item,parent,false))
+        return CompositeSubItemViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_composite_sub_item, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: CompositeSubItemViewHolder, position: Int) {
-        val compositeSubItem=compositeItemList[position]
-        compositeSubVariantItemList.forEach{
-            if (compositeSubItem.compositeSubItemId==it.variantId){
-                Glide.with(context).load(it.variantImages[0].imageFullPath).into(holder.ivCompositeSubItemImage)
-                return@forEach
-            }
-        }
+        val compositeSubItem = compositeItemList[position]
+        val image = compositeSubVariantItemList.firstOrNull {
+            compositeSubItem.compositeSubItemId == it.variantId
+        }?.variantImages?.get(0)
+        Glide.with(context).load(image?.imageFullPath)
+            .into(holder.ivCompositeSubItemImage)
         holder.apply {
-            tvCompositeSubItemName.text=compositeSubItem.compositeSubItemName
-            tvCompositeSubItemQuantity.text=compositeSubItem.compositeSubItemQuantity.toString()
-            tvCompositeSubItemSKU.text=compositeSubItem.compositeSubItemSKU
-            tvCompositeSubItemRetailPrice.text= NumberFormat.getInstance(Locale.US).format(compositeSubItem.compositeSubItemPrice).toString()
+            tvCompositeSubItemName.text = compositeSubItem.compositeSubItemName
+            tvCompositeSubItemQuantity.text = compositeSubItem.compositeSubItemQuantity.toString()
+            tvCompositeSubItemSKU.text = compositeSubItem.compositeSubItemSKU
+            tvCompositeSubItemRetailPrice.text =
+                NumberFormat.getInstance(Locale.US).format(compositeSubItem.compositeSubItemPrice)
+                    .toString()
 
             itemView.setOnClickListener {
-                onItemClickCompositeItem?.invoke(compositeSubItem.compositeSubItemProductId,compositeSubItem.compositeSubItemId)
+                onItemClickCompositeItem?.invoke(
+                    compositeSubItem.compositeSubItemProductId,
+                    compositeSubItem.compositeSubItemId
+                )
             }
         }
     }

@@ -68,11 +68,11 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_appbar_product, menu)
-        if (menu != null) {
+        menu?.let {
             if (isProductResult) {
-                menu.getItem(0).setIcon(R.drawable.ic_warehouse)
+                it.getItem(0).setIcon(R.drawable.ic_warehouse)
             } else {
-                menu.getItem(0).setIcon(R.drawable.ic_product)
+                it.getItem(0).setIcon(R.drawable.ic_product)
             }
         }
         return true
@@ -90,14 +90,7 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                     item.setIcon(R.drawable.ic_warehouse)
                 }
                 isProductResult = !isProductResult
-                currentPage = 1
-                GlobalScope.launch {
-                    productPresenter.initData(isProductResult, currentPage)
-                }
-                binding.rclvProductList.visibility = View.INVISIBLE
-                binding.svProductSearch.setQuery("", false)
-                keySearch = ""
-                binding.svProductSearch.clearFocus()
+                initData()
                 pref.edit().putBoolean(SHARED_PREF_IS_PRODUCT_RESULT, isProductResult).apply()
             }
         }
@@ -108,25 +101,16 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
         binding.srlProductRefresh.isRefreshing = isRefresh
     }
 
-    override fun showProductList(productList: MutableList<Product>) {
-        this.productList = productList
-        Handler(Looper.getMainLooper()).post {
-            initProductAdapter()
-            binding.rclvProductList.adapter = adapterProduct
-        }
-
+    override fun showProductList() {
+        initProductAdapter()
     }
 
-    override fun showVariantList(variantList: MutableList<Variant>) {
-        this.variantList = variantList
-        Handler(Looper.getMainLooper()).post {
-            initVariantAdapter()
-            binding.rclvProductList.adapter = adapterVariant
-        }
+    override fun showVariantList() {
+        initVariantAdapter()
     }
 
     override fun setMutableLiveData(meta: Meta) {
-        Handler(Looper.getMainLooper()).postDelayed({
+        Handler(Looper.getMainLooper()).post {
             this.meta = meta
             totalPage =
                 if (meta.metaTotal % meta.metaLimit == 0L) {
@@ -145,10 +129,9 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
                 productPresenter.txtProductCount.value =
                     meta.metaTotal.toString() + getString(R.string.productActivity2)
             }
-            binding.notifyChange()
             binding.proP = productPresenter
-            binding.rclvProductList.visibility = View.VISIBLE
-        }, 500)
+            binding.notifyChange()
+        }
     }
 
     private fun setUpSearchView() {
@@ -160,35 +143,18 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
 
             override fun onQueryTextChange(p0: String?): Boolean {
                 currentPage = 1
-                if (p0 != null) {
-                    keySearch = p0
-                    if (isProductResult) {
-                        GlobalScope.launch {
-                            productList =
-                                productPresenter.getProductList(currentPage, p0)
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                initProductAdapter()
-                                binding.rclvProductList.adapter = adapterProduct
-                            }, 500)
-                        }
-                    } else {
-                        GlobalScope.launch {
-                            variantList =
-                                productPresenter.getVariantList(currentPage, p0)
-                            Handler(Looper.getMainLooper()).postDelayed({
-                                initVariantAdapter()
-                                binding.rclvProductList.adapter = adapterVariant
-                            }, 500)
-                        }
-                    }
-                    if (p0.isEmpty()) {
-                        currentPage = 1
-                    }
+                keySearch = p0 ?: ""
+                if (isProductResult) {
+                    initProductAdapter()
+                } else {
+                    initVariantAdapter()
+                }
+                if (keySearch.isEmpty()) {
+                    currentPage = 1
                 }
                 return true
             }
         })
-
     }
 
     private fun setUpRecyclerView() {
@@ -204,55 +170,33 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
         binding.rclvProductList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                val total: Int? = binding.rclvProductList.adapter?.itemCount
-                if (!isLoadMore && currentPage < totalPage) {
-                    if (total != null) {
-                        if ((binding.rclvProductList.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == (total - 1)) {
-                            currentPage++
-                            if (isProductResult) {
-                                GlobalScope.launch {
-                                    if (currentPage == 1L) {
-                                        productList =
-                                            productPresenter.getProductList(currentPage, keySearch)
-                                        Handler(Looper.getMainLooper()).postDelayed({
-                                            initProductAdapter()
-                                            binding.rclvProductList.adapter = adapterProduct
-                                        }, 500)
-                                    } else {
-                                        productList.addAll(
-                                            productPresenter.getProductList(
-                                                currentPage,
-                                                keySearch
-                                            )
-                                        )
-                                        Handler(Looper.getMainLooper()).postDelayed({
-                                            adapterProduct.notifyItemInserted(productList.size - 1)
-                                        }, 500)
-                                    }
-                                }
-                            } else {
-                                GlobalScope.launch {
-                                    if (currentPage == 1L) {
-                                        variantList =
-                                            productPresenter.getVariantList(currentPage, keySearch)
-                                        Handler(Looper.getMainLooper()).postDelayed({
-                                            initVariantAdapter()
-                                            binding.rclvProductList.adapter = adapterVariant
-                                        }, 500)
-                                    } else {
-                                        variantList.addAll(
-                                            productPresenter.getVariantList(
-                                                currentPage,
-                                                keySearch
-                                            )
-                                        )
-                                        Handler(Looper.getMainLooper()).postDelayed({
-                                            adapterVariant.notifyItemInserted(variantList.size - 1)
-                                        }, 500)
-                                    }
-                                }
-                            }
+                val total= binding.rclvProductList.adapter?.itemCount ?: 0
+                if (!isLoadMore && currentPage < totalPage && total > 0 && (binding.rclvProductList.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == (total - 1)) {
+                    currentPage++
+                    if (isProductResult) {
+                        GlobalScope.launch {
+                            productList.addAll(
+                                productPresenter.getProductList(
+                                    currentPage,
+                                    keySearch
+                                )
+                            )
                         }
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            adapterProduct.notifyItemInserted(productList.size - 1)
+                        }, 500)
+                    } else {
+                        GlobalScope.launch {
+                            variantList.addAll(
+                                productPresenter.getVariantList(
+                                    currentPage,
+                                    keySearch
+                                )
+                            )
+                        }
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            adapterVariant.notifyItemInserted(variantList.size - 1)
+                        }, 500)
                     }
                 }
             }
@@ -261,31 +205,15 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
 
     private fun setUpRefresh() {
         binding.srlProductRefresh.setOnRefreshListener {
-            isLoadMore = true
             binding.srlProductRefresh.isRefreshing = true
+            currentPage = 1
             if (isProductResult) {
-                GlobalScope.launch {
-                    productList =
-                        productPresenter.getProductList(currentPage, keySearch)
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        initProductAdapter()
-                        binding.rclvProductList.adapter = adapterProduct
-                    }, 500)
-                    binding.srlProductRefresh.isRefreshing = false
-                }
+                initProductAdapter()
+                binding.srlProductRefresh.isRefreshing = false
             } else {
-                GlobalScope.launch {
-                    variantList =
-                        productPresenter.getVariantList(currentPage, keySearch)
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        initVariantAdapter()
-                        binding.rclvProductList.adapter = adapterVariant
-                    }, 500)
-                }
+                initVariantAdapter()
                 binding.srlProductRefresh.isRefreshing = false
             }
-            isLoadMore = false
-            currentPage = 1
         }
     }
 
@@ -295,30 +223,50 @@ class ProductActivity : AppCompatActivity(), ProductInterface.ViewModel {
     }
 
     private fun initData() {
+        currentPage = 1
+        binding.svProductSearch.setQuery("", false)
+        keySearch = ""
+        binding.svProductSearch.clearFocus()
         GlobalScope.launch {
             productPresenter.initData(isProductResult, currentPage)
         }
         binding.rclvProductList.visibility = View.INVISIBLE
     }
-    private fun initProductAdapter(){
-        adapterProduct =
-            ProductAdapter(applicationContext, productList)
-        adapterProduct.onItemClickProduct = {
-            val intent = Intent(applicationContext, ProductDetailActivity::class.java)
-            intent.putExtra(ProductDetailActivity.KEY_PRODUCT_ID, it)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+
+    private fun initProductAdapter() {
+        GlobalScope.launch {
+            productList = productPresenter.getProductList(currentPage, keySearch)
+            Handler(Looper.getMainLooper()).postDelayed({
+                adapterProduct =
+                    ProductAdapter(applicationContext, productList)
+                adapterProduct.onItemClickProduct = {
+                    val intent = Intent(applicationContext, ProductDetailActivity::class.java)
+                    intent.putExtra(ProductDetailActivity.KEY_PRODUCT_ID, it)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
+                binding.rclvProductList.adapter = adapterProduct
+                binding.rclvProductList.visibility = View.VISIBLE
+            }, 500)
         }
     }
-    private fun initVariantAdapter(){
-        adapterVariant =
-            VariantAdapter(applicationContext, variantList)
-        adapterVariant.onItemClickVariant = { productId, variantId ->
-            val intent = Intent(applicationContext, VariantDetailActivity::class.java)
-            intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, productId)
-            intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variantId)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+
+    private fun initVariantAdapter() {
+        GlobalScope.launch {
+            variantList = productPresenter.getVariantList(currentPage, keySearch)
+            Handler(Looper.getMainLooper()).postDelayed({
+                adapterVariant =
+                    VariantAdapter(applicationContext, variantList)
+                adapterVariant.onItemClickVariant = { productId, variantId ->
+                    val intent = Intent(applicationContext, VariantDetailActivity::class.java)
+                    intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, productId)
+                    intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variantId)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
+                }
+                binding.rclvProductList.adapter = adapterVariant
+                binding.rclvProductList.visibility = View.VISIBLE
+            }, 500)
         }
     }
 }

@@ -9,9 +9,9 @@ interface ProductInterface {
     interface ViewModel {
         fun setRefresh(isRefresh: Boolean)
 
-        fun showProductList(productList: MutableList<Product>)
+        fun showProductList()
 
-        fun showVariantList(variantList: MutableList<Variant>)
+        fun showVariantList()
 
         fun setMutableLiveData(meta: Meta)
 

@@ -44,10 +44,11 @@ class PackSizeAdapter(private val context: Context, packSizes: MutableList<Varia
     override fun onBindViewHolder(holder: PackSizeViewHolder, position: Int) {
         val packSize = packSizeList[position]
         holder.apply {
-            if (packSize.variantImages.isEmpty()) {
+            if (packSize.variantImages.isNotEmpty()) {
+                Glide.with(context).load(packSize.variantImages[0].imageFullPath)
+                    .into(ivVariantImage)
+            }else{
                 ivVariantImage.setImageResource(R.drawable.ic_no_image)
-            } else {
-                Glide.with(context).load(packSize.variantImages[0].imageFullPath).into(ivVariantImage)
             }
             ivArrowDownRight.setImageResource(R.drawable.ic_arrow_down_right)
             tvVariantName.text = context.getString(R.string.variantForOneAdapter4)

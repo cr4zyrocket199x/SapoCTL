@@ -20,9 +20,9 @@ class ProductPresenter(
 
     override suspend fun initData(isProductResult: Boolean, currentPage: Long) {
         if (isProductResult) {
-            productInterfaceViewModel.showProductList(getProductList(currentPage, ""))
+            productInterfaceViewModel.showProductList()
         } else {
-            productInterfaceViewModel.showVariantList(getVariantList(currentPage, ""))
+            productInterfaceViewModel.showVariantList()
         }
         productInterfaceViewModel.setRefresh(false)
     }
@@ -34,10 +34,14 @@ class ProductPresenter(
         val productList = mutableListOf<Product>()
         val responseData = API.apiServiceGetData.getResponseProductList(currentPage, keySearch)
         if (responseData.isSuccessful) {
-            responseData.body()?.productList?.forEach {
-                productList.add(Common.mapProductToProductData(it))
+            responseData.body()?.let {
+                it.productList?.forEach { productData ->
+                    productList.add(Common.mapProductToProductData(productData))
+                }
+                it.metaData?.let { metaData ->
+                    productInterfaceViewModel.setMutableLiveData(Common.mapMetaToMetaData(metaData))
+                }
             }
-            productInterfaceViewModel.setMutableLiveData(Common.mapMetaToMetaData(responseData.body()!!.metaData!!))
         }
         return productList
     }
@@ -50,12 +54,12 @@ class ProductPresenter(
         val variantList = mutableListOf<Variant>()
         val responseData = API.apiServiceGetData.getResponseVariantList(currentPage, keySearch)
         if (responseData.isSuccessful) {
-            responseData.body()?.let { it ->
+            responseData.body()?.let {
                 it.variantList?.forEach { variantData ->
                     variantList.add(Common.mapVariantToVariantData(variantData))
                 }
-                it.metaData?.let {
-                    productInterfaceViewModel.setMutableLiveData(Common.mapMetaToMetaData(it))
+                it.metaData?.let { metaData ->
+                    productInterfaceViewModel.setMutableLiveData(Common.mapMetaToMetaData(metaData))
                 }
             }
         }

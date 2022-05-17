@@ -13,7 +13,6 @@ import com.cr4zyrocket.sapoctl.R
 import com.cr4zyrocket.sapoctl.databinding.ActivityCompositeItemBinding
 import com.cr4zyrocket.sapoctl.model.Variant
 import com.cr4zyrocket.sapoctl.presenter.compositeitem.adapter.CompositeItemAdapter
-import com.cr4zyrocket.sapoctl.presenter.productdetail.ProductDetailActivity
 import com.cr4zyrocket.sapoctl.presenter.variantdetail.VariantDetailActivity
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -60,16 +59,16 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
         variant: Variant,
         compositeSubItemList: MutableList<Variant>
     ) {
+        compositeItemAdapter =
+            CompositeItemAdapter(this, variant.variantCompositeItems, compositeSubItemList)
+        compositeItemAdapter.onItemClickCompositeItem = { productId, variantId ->
+            val intent = Intent(applicationContext, VariantDetailActivity::class.java)
+            intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, productId)
+            intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variantId)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
         Handler(Looper.getMainLooper()).post {
-            compositeItemAdapter =
-                CompositeItemAdapter(this, variant.variantCompositeItems, compositeSubItemList)
-            compositeItemAdapter.onItemClickCompositeItem = { productId, variantId ->
-                val intent = Intent(applicationContext, VariantDetailActivity::class.java)
-                intent.putExtra(VariantDetailActivity.KEY_PRODUCT_ID, productId)
-                intent.putExtra(VariantDetailActivity.KEY_VARIANT_ID, variantId)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-            }
             binding.rclvCompositeItemList.apply {
                 addItemDecoration(
                     DividerItemDecoration(
@@ -83,17 +82,17 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
     }
 
     override fun setMutableLiveData(variant: Variant) {
+        var totalPrice = 0L
+        variant.variantCompositeItems.forEach {
+            totalPrice += it.compositeSubItemPrice
+        }
         Handler(Looper.getMainLooper()).postDelayed({
-            var totalPrice = 0L
             compositeItemPresenter.txtCompositeSubItemsCount.value =
                 getString(R.string.total) + variant.variantCompositeItems.size.toString()
-            variant.variantCompositeItems.forEach {
-                totalPrice += it.compositeSubItemPrice
-            }
             compositeItemPresenter.txtCompositeSubItemsPrice.value =
                 NumberFormat.getInstance(Locale.US).format(totalPrice)
-            binding.notifyChange()
             binding.comItemP = compositeItemPresenter
+            binding.notifyChange()
             binding.rlCompositeItem.visibility = View.VISIBLE
         }, 500)
     }
