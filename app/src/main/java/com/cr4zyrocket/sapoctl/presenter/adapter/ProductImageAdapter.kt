@@ -1,5 +1,7 @@
 package com.cr4zyrocket.sapoctl.presenter.adapter
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View

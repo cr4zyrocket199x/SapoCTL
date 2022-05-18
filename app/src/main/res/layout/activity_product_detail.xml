@@ -11,8 +11,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+
+        <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -457,6 +457,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginStart="10dp"
                                 android:layout_marginTop="10dp"
+                                android:clickable="true"
                                 android:focusable="true"
                                 android:text="@{proDP.txtShowProductTypeDetail}"
                                 android:textColor="@color/clickable" />
@@ -738,6 +739,7 @@
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
         </LinearLayout>
+
         <ProgressBar
             android:id="@+id/pbProductDetail"
             android:layout_width="wrap_content"

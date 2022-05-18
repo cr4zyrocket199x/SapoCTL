@@ -78,6 +78,8 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
                 )
                 adapter = compositeItemAdapter
             }
+            binding.rclvCompositeItemList.visibility = View.VISIBLE
+            binding.pbCompositeItem.visibility = View.INVISIBLE
         },500)
     }
 
@@ -93,8 +95,6 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
                 NumberFormat.getInstance(Locale.US).format(totalPrice)
             binding.comItemP = compositeItemPresenter
             binding.notifyChange()
-            binding.rlCompositeItem.visibility = View.VISIBLE
-            binding.pbCompositeItem.visibility = View.INVISIBLE
         }
     }
 
@@ -105,7 +105,7 @@ class CompositeItemActivity : AppCompatActivity(), CompositeItemInterface.ViewMo
 
     private fun initData() {
         binding.pbCompositeItem.visibility = View.VISIBLE
-        binding.rlCompositeItem.visibility = View.INVISIBLE
+        binding.rclvCompositeItemList.visibility = View.INVISIBLE
         GlobalScope.launch {
             compositeItemPresenter.initData(productId, variantId)
         }

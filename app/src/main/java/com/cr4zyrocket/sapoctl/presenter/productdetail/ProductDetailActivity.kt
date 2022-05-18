@@ -1,9 +1,11 @@
 package com.cr4zyrocket.sapoctl.presenter.productdetail
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -46,7 +48,6 @@ class ProductDetailActivity : AppCompatActivity(), ProductDetailInterface.ViewMo
         getIntentExtra()
 
         initData()
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
